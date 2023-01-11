@@ -1,0 +1,42 @@
+[
+  {
+    "queue_number": "6368",
+    "call_queue_type": "Pharmacy Call Queue",
+    "call_queue": "MPH Pharmacy 12A Floor",
+    "visible_patient_id": "659085927",
+    "display_name_e": "Mrs. Boonporn Boriboonsongsilp",
+    "display_name_l": "นาง บุญพร บริบูรณ์ส่งศิลป์",
+    "nationality": "th",
+    "current_call_queue_rcd": "READY"
+  },
+  {
+    "queue_number": "2623",
+    "call_queue_type": "Pharmacy Call Queue",
+    "call_queue": "MPH Pharmacy 12A Floor",
+    "visible_patient_id": "659035177",
+    "display_name_e": "Mrs. Rattana Kornkaew",
+    "display_name_l": "นาง รัตนา ก้อนแก้ว",
+    "nationality": "th",
+    "current_call_queue_rcd": "READY"
+  },
+  {
+    "queue_number": "2849",
+    "call_queue_type": "Pharmacy Call Queue",
+    "call_queue": "MPH Pharmacy 12A Floor",
+    "visible_patient_id": "659030738",
+    "display_name_e": "Mr. Zongkai Yao",
+    "display_name_l": "Mr. Zongkai Yao",
+    "nationality": "en",
+    "current_call_queue_rcd": "CALL"
+  },
+  {
+    "queue_number": "3371",
+    "call_queue_type": "Cashier Call Queue",
+    "call_queue": "MPH Cashier OPD (8 Floor)",
+    "visible_patient_id": "659085954",
+    "display_name_e": "Miss Karnsiri Komsurasit",
+    "display_name_l": "นางสาว กาญจน์ศิริ คมสุรศิษฐ์",
+    "nationality": "th",
+    "current_call_queue_rcd": "CALL"
+  }
+]
