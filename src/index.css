@@ -70,3 +70,15 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.main-color {
+  background-color: rgb(49, 92, 139);
+}
+
+.secondary-color {
+  background-color: rgb(0, 60, 110);
+}
+
+.specific-color {
+  background-color: rgb(192, 100, 40);
+}
