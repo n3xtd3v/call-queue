@@ -1,23 +1,46 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { postDataAPI } from '../utils/fetchData'
 
 export default function Root() {
   const [isOpen, setOpen] = useState(false)
-  const [floor, setFloor] = useState('G')
+  const [floorsCashier, setFloorsCashier] = useState([])
+  const [floorsPharmacy, setFloorsPharmacy] = useState([])
+  const [floorSelect, setFloorSelect] = useState([])
 
-  const floorsOption = ['G', '3', '4', '5', '6', '7', '8', '9', '10']
+  useEffect(() => {
+    const dataFetch = async () => {
+      const dataCashier = await (
+        await fetch('http://localhost:7070/api/floors/cashier')
+      ).json()
+
+      const dataPharmacy = await (
+        await fetch('http://localhost:7070/api/floors/pharmacy')
+      ).json()
+
+      setFloorsCashier(dataCashier.floors)
+      setFloorsPharmacy(dataPharmacy.floors)
+    }
+
+    dataFetch()
+  }, [])
 
   const navigate = useNavigate()
 
-  const handleChangeInputFloor = (e) => {
-    const { value } = e.target
-    setFloor((floor) => (floor = value))
+  const handleChangeInputFloor = async (e) => {
+    const data = e.target.value
+
+    const res = await postDataAPI('floorId', { name: data })
+
+    const floorId = res.data.floorId.call_queue_id
+
+    setFloorSelect((floorSelect) => [...floorSelect, floorId])
   }
 
   const handleSubmitFloor = (e) => {
     e.preventDefault()
 
-    navigate(`/floor/${floor}`)
+    navigate(`/floor/${floorSelect[0]}-${floorSelect[1]}`)
   }
 
   return (
@@ -54,8 +77,9 @@ export default function Root() {
                       className="text-lg font-medium leading-6 text-gray-900"
                       id="modal-title"
                     >
-                      Floor
+                      Floors
                     </h3>
+
                     <div className="mt-2">
                       <form onSubmit={handleSubmitFloor}>
                         <div className="bg-white px-4 py-5 sm:p-6">
@@ -64,11 +88,33 @@ export default function Root() {
                               id="floor"
                               className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                               name="floor"
-                              value={floor}
+                              value={floorSelect ? floorSelect.name_e : ''}
                               onChange={handleChangeInputFloor}
                             >
-                              {floorsOption.map((floorOption, index) => (
-                                <option key={index}>{floorOption}</option>
+                              <option>Select cashier</option>
+                              {floorsCashier.map((floorCashier, index) => (
+                                <option key={index}>
+                                  {floorCashier.name_e}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        </div>
+
+                        <div className="bg-white px-4 py-5 sm:p-6">
+                          <div className="col-span-6 sm:col-span-3">
+                            <select
+                              id="floor"
+                              className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                              name="floor"
+                              value={floorSelect ? floorSelect.name_e : ''}
+                              onChange={handleChangeInputFloor}
+                            >
+                              <option>Select pharmacy</option>
+                              {floorsPharmacy.map((floorPharmacy, index) => (
+                                <option key={index}>
+                                  {floorPharmacy.name_e}
+                                </option>
                               ))}
                             </select>
                           </div>

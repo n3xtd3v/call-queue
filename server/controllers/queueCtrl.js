@@ -1,11 +1,28 @@
 const mssql = require('mssql')
 
 const queueCtrl = {
-  getQueue: async (req, res) => {
+  getQueues: async (req, res) => {
     try {
-      // const queues = await mssql.query`
-      // SELECT
-      // FROM
+      const { id } = req.params
+
+      const cashierId = id.slice(0, 36)
+      const pharmacyId = id.slice(37, 73)
+
+      const queues = await mssql.query`
+        SELECT qe.call_queue_id, qe.queue_number, qe.call_display_info, qe.current_call_queue_event_rcd, cq.name_e, qe.call_display_info
+        FROM  call_queue_entry_nl_view as qe
+        INNER JOIN call_queue_nl_view as cq on cq.call_queue_id = qe.call_queue_id
+        WHERE  qe.current_call_queue_event_rcd 
+        IN('MISSEDCALL', 'CALL', 'WAITING') 
+        AND cq.call_queue_id 
+        IN (${cashierId}, ${pharmacyId}) 
+        AND qe.lu_updated >= DATEADD(d, -1, getdate())
+        `
+
+      return res.status(200).json({
+        queues: queues.recordsets[0],
+        queuesLegth: queues.recordsets[0].length,
+      })
     } catch (err) {
       return res.status(500).json({ msg: err.message })
     }

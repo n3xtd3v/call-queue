@@ -8,22 +8,19 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
-app.get('/', (req, res) => {
-  res.json({ msg: 'Hello Server' })
-})
-
 app.use('/api', require('./routes/queueRouter'))
+app.use('/api', require('./routes/floorRouter'))
 
-// ;(async () => {
-//   try {
-//     await mssql.connect(dbConfig)
-//     console.log('Connected to database mssql.')
-//   } catch (err) {
-//     console.log(err.message)
-//   }
-// })()
+;(async () => {
+  try {
+    await mssql.connect(dbConfig)
+    console.log('Connected to database mssql.')
+  } catch (err) {
+    console.log(err.message)
+  }
+})()
 
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`)
