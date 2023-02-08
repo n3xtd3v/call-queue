@@ -136,20 +136,21 @@ export default function Floor() {
                 queues
                   .filter(
                     (queue) =>
-                      queue.current_call_queue_event_rcd === 'CALL' &&
+                      queue.current_call_queue_event_rcd === 'WAITING' &&
                       queue.call_queue_type_rcd === 'PHARMACY'
                   )
                   .map((queue, index) => (
                     <div
-                      className="flex justify-around my-2 bg-gradient-to-r from-orange-500 via-orange-400 to-orange-200 py-2 rounded"
+                      className="flex justify-around my-2 bg-gradient-to-r from-lime-500 via-lime-400 to-lime-200 py-2 rounded"
                       key={index}
                     >
-                      <p className="text-white text-center text-7xl">
+                      <p className="text-white text-center text-9xl">
                         {queue.queue_number}
                       </p>
 
-                      <p className="text-white text-center text-7xl">
-                        {queue.call_display_info}
+                      <p className="text-white text-center text-9xl">
+                        {index + 1}
+                        {/* {queue.call_display_info} */}
                       </p>
                     </div>
                   ))}
