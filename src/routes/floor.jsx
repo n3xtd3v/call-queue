@@ -61,7 +61,7 @@ export default function Floor() {
               <div className="flex justify-between">
                 <p className="text-white text-center text-4xl">QN</p>
 
-                <p className="text-white text-center text-4xl">Couter</p>
+                <p className="text-white text-center text-4xl">Counter</p>
               </div>
 
               {queues &&
@@ -99,7 +99,7 @@ export default function Floor() {
               <div className="flex justify-between opacity-0">
                 <p className="text-white text-center text-4xl">QN</p>
 
-                <p className="text-white text-center text-4xl">Couter</p>
+                <p className="text-white text-center text-4xl">Counter</p>
               </div>
 
               {queues &&
@@ -129,7 +129,7 @@ export default function Floor() {
               <div className="flex justify-between">
                 <p className="text-white text-center text-4xl">QN</p>
 
-                <p className="text-white text-center text-4xl">Couter</p>
+                <p className="text-white text-center text-4xl">Counter</p>
               </div>
 
               {queues &&
