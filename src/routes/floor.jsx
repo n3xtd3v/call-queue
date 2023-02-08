@@ -76,11 +76,11 @@ export default function Floor() {
                       className="flex justify-around my-2 bg-gradient-to-r from-orange-500 via-orange-400 to-orange-200 py-2 rounded"
                       key={index}
                     >
-                      <p className="text-white text-center text-7xl">
+                      <p className="text-white text-center text-9xl">
                         {queue.queue_number}
                       </p>
 
-                      <p className="text-white text-center text-7xl">
+                      <p className="text-white text-center text-9xl">
                         {index + 1}
                         {/* {queue.call_display_info} */}
                       </p>
