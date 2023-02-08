@@ -13,7 +13,7 @@ const Footer = ({ queues }) => {
 
   return (
     <div className="main-color fixed w-full bottom-0 left-0 z-50">
-      <p className="text-3xl text-white scrolling py-7">
+      <p className="text-4xl text-white scrolling py-8">
         {test && (
           <span>QN ที่เรียกแล้ว โปรดติดต่อเคาน์เตอร์ {test?.toString()}</span>
         )}
