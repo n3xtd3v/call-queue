@@ -46,7 +46,7 @@ export default function Floor() {
     <div>
       <Nav />
       <div className="flex space-between justify-around items-center min-h-screen px-10">
-        <div className="grid grid-cols-3 gap-10">
+        <div className="grid grid-cols-3 gap-10 place-items-center">
           <div className="h-mainSection min-h-full main-color text-clip overflow-hidden rounded-lg p-4 xl:w-[600px]">
             <div className="text-center text-white text-5xl">
               เรียกคิวชำระเงิน
@@ -89,7 +89,7 @@ export default function Floor() {
             </div>
           </div>
 
-          <div className="h-mainSection min-h-full main-color text-clip overflow-hidden rounded-lg p-4 xl:w-[600px]">
+          <div className="h-mainSection min-h-full main-color text-clip overflow-hidden rounded-lg p-4 xl:w-[500px]">
             <div className="text-center text-white text-5xl">รอเรียกคิว</div>
             <div className="text-center text-white text-4xl">Waiting queue</div>
 
