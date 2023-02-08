@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     extend: {
       height: {
-        mainSection: '750px',
+        mainSection: '770px',
       },
       width: {
         600: '600px',
