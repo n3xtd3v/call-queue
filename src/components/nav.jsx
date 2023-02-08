@@ -23,7 +23,7 @@ const Nav = () => {
                 />
               </svg>
             </span> */}
-            <p className="ml-3 text-3xl text-white">
+            <p className="ml-3 text-5xl text-white">
               <span>MedPark Hospital</span>
             </p>
           </div>

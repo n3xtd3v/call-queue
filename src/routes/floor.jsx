@@ -47,11 +47,11 @@ export default function Floor() {
       <Nav />
       <div className="flex space-between justify-around items-center min-h-screen px-10">
         <div className="grid grid-cols-3 gap-10">
-          <div className="h-mainSection min-h-full main-color text-clip overflow-hidden rounded-lg p-4 xl:w-96">
-            <div className="text-center text-white text-2xl">
+          <div className="h-mainSection min-h-full main-color text-clip overflow-hidden rounded-lg p-4 xl:w-[600px]">
+            <div className="text-center text-white text-5xl">
               เรียกคิวชำระเงิน
             </div>
-            <div className="text-center text-white text-2xl">
+            <div className="text-center text-white text-4xl">
               Call queue cashier
             </div>
 
@@ -90,8 +90,8 @@ export default function Floor() {
           </div>
 
           <div className="h-mainSection min-h-full main-color text-clip overflow-hidden rounded-lg p-4">
-            <div className="text-center text-white text-2xl">รอเรียกคิว</div>
-            <div className="text-center text-white text-2xl">Waiting queue</div>
+            <div className="text-center text-white text-5xl">รอเรียกคิว</div>
+            <div className="text-center text-white text-4xl">Waiting queue</div>
 
             <div className="border-b-2 border-white my-3"></div>
 
@@ -118,8 +118,8 @@ export default function Floor() {
           </div>
 
           <div className="h-mainSection min-h-full main-color text-clip overflow-hidden rounded-lg p-4">
-            <div className="text-center text-white text-2xl">เรียกคิวรับยา</div>
-            <div className="text-center text-white text-2xl">
+            <div className="text-center text-white text-5xl">เรียกคิวรับยา</div>
+            <div className="text-center text-white text-4xl">
               Call queue pharmacy
             </div>
 
