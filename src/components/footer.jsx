@@ -1,21 +1,23 @@
 import React from 'react'
 
-const Footer = () => {
+const Footer = ({ queues }) => {
+  const queuesFilterMissedCall = queues?.filter(
+    (queue) => queue.current_call_queue_event_rcd === 'MISSEDCALL'
+  )
+
+  const textString = queuesFilterMissedCall?.map(
+    (queueFilterMissedCall) => queueFilterMissedCall['queue_number']
+  )
+
+  const test = textString?.join(', ')
+
   return (
     <div className="main-color fixed w-full bottom-0 left-0 z-50">
-      <div className="mx-auto max-w-7xl py-3 px-3 sm:px-6 lg:px-8">
-        <div className="flex flex-wrap items-center justify-between">
-          <div className="flex w-0 flex-1 items-center">
-            <p className="ml-3 font-medium text-white scrolling">
-              <span>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minus,
-                officia! Praesentium inventore expedita voluptates! Sequi dolore
-                similique accusantium libero quibusdam!
-              </span>
-            </p>
-          </div>
-        </div>
-      </div>
+      <p className="text-3xl text-white scrolling py-7">
+        {test && (
+          <span>QN ที่เรียกแล้ว โปรดติดต่อเคาน์เตอร์ {test?.toString()}</span>
+        )}
+      </p>
     </div>
   )
 }

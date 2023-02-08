@@ -8,8 +8,9 @@
 .scrolling span {
   width: 100%;
   position: absolute;
+  bottom: 6px;
   transform: translateX(100%);
-  animation: scrolling 30s linear infinite;
+  animation: scrolling 50s linear infinite;
 }
 
 @keyframes scrolling {

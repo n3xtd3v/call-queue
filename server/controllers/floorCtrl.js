@@ -4,7 +4,7 @@ const floorCtrl = {
   getFloorsCashier: async (req, res) => {
     try {
       const floors = await mssql.query`
-        SELECT call_queue_id, name_e
+        SELECT call_queue_id, name_e, call_queue_type_rcd
         FROM call_queue_nl_view
         WHERE call_queue_type_rcd 
         IN ('Cashier') 
@@ -21,7 +21,7 @@ const floorCtrl = {
   getFloorsPharmacy: async (req, res) => {
     try {
       const floors = await mssql.query`
-        SELECT call_queue_id, name_e
+        SELECT call_queue_id, name_e, call_queue_type_rcd
         FROM call_queue_nl_view
         WHERE call_queue_type_rcd 
         IN ('PHARMACY') 
