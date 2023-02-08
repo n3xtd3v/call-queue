@@ -89,7 +89,7 @@ export default function Floor() {
             </div>
           </div>
 
-          <div className="h-mainSection min-h-full main-color text-clip overflow-hidden rounded-lg p-4">
+          <div className="h-mainSection min-h-full main-color text-clip overflow-hidden rounded-lg p-4 xl:w-[600px]">
             <div className="text-center text-white text-5xl">รอเรียกคิว</div>
             <div className="text-center text-white text-4xl">Waiting queue</div>
 
@@ -117,7 +117,7 @@ export default function Floor() {
             </div>
           </div>
 
-          <div className="h-mainSection min-h-full main-color text-clip overflow-hidden rounded-lg p-4">
+          <div className="h-mainSection min-h-full main-color text-clip overflow-hidden rounded-lg p-4 xl:w-[600px]">
             <div className="text-center text-white text-5xl">เรียกคิวรับยา</div>
             <div className="text-center text-white text-4xl">
               Call queue pharmacy
