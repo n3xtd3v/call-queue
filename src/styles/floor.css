@@ -1,16 +1,6 @@
 .scrolling {
-  width: 100%;
-  height: 20px;
-  position: relative;
-  overflow: hidden;
-}
-
-.scrolling span {
-  width: 100%;
-  position: absolute;
-  bottom: 6px;
   transform: translateX(100%);
-  animation: scrolling 50s linear infinite;
+  animation: scrolling 15s linear infinite;
 }
 
 @keyframes scrolling {
