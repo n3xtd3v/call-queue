@@ -189,12 +189,12 @@ const floor = () => {
           </div>
 
           <div className="flex flex-col justify-center items-center main-color w-full border p-5 border-black">
-            <table className="border-collapse border border-white m-4 w-full green-color">
+            <table className="border-collapse border border-white m-4 w-full green-color text-black">
               <thead>
                 <tr>
                   <th className="border-4 border-white p-5">Service Number</th>
                   <th className="border-4 border-white p-5">
-                    Counter / ช่องชำระเงิน
+                    Counter / ช่องรับยา
                   </th>
                 </tr>
               </thead>
@@ -228,7 +228,7 @@ const floor = () => {
 
             <div className="main-color w-full my-3 p-5 border border-black whitespace-nowrap truncate">
               <div className="scrolling">
-                WAITING / รอชำระเงิน{" "}
+                WAITING / รอรับยา{" "}
                 {pharmacysWaiting?.map(
                   (pharmacyWaiting) => pharmacyWaiting.queue_number + ", "
                 )}
@@ -237,7 +237,7 @@ const floor = () => {
 
             <div className="main-color w-full my-3 p-5 border border-black whitespace-nowrap truncate">
               <div className="scrolling text-yellow-300">
-                MISSED CALL / กรุณาติดต่อการเงิน{" "}
+                MISSED CALL / กรุณาติดต่อเภสัชกร{" "}
                 {pharmacysMissedCall?.map(
                   (pharmacyMissedCall) => pharmacyMissedCall.queue_number + ", "
                 )}
