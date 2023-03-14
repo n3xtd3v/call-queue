@@ -65,11 +65,11 @@ const floor = () => {
     );
   }
 
+
   const cashierCall_1 = filterQueueCall("CALL", "CASHIER", "Cashier 1");
   const cashierCall_2 = filterQueueCall("CALL", "CASHIER", "Cashier 2");
   const cashierCall_3 = filterQueueCall("CALL", "CASHIER", "Cashier 3");
   const cashierCall_4 = filterQueueCall("CALL", "CASHIER", "Cashier 4");
-
   const cashiersWaiting = filterQueueWaiting("WAITING", "CASHIER");
   const cashiersMissedCall = filterQueueMissedCall("MISSEDCALL", "CASHIER");
 
@@ -77,7 +77,6 @@ const floor = () => {
   const pharmacyCall_2 = filterQueueCall("CALL", "PHARMACY", "Pharmacy 2");
   const pharmacyCall_3 = filterQueueCall("CALL", "PHARMACY", "Pharmacy 3");
   const pharmacyCall_4 = filterQueueCall("CALL", "PHARMACY", "Pharmacy 4");
-
   const pharmacysWaiting = filterQueueWaiting("WAITING", "PHARMACY");
   const pharmacysMissedCall = filterQueueMissedCall("MISSEDCALL", "PHARMACY");
 
@@ -137,26 +136,26 @@ const floor = () => {
               <tbody>
                 <tr>
                   <td className="border-4 border-white p-5">
-                    {cashierCall_1?.queue_number}
+                  {cashierCall_1?.[0] ? cashierCall_1?.[0].queue_number : ''}
                   </td>
                   <td className="border-4 border-white p-5">1</td>
                 </tr>
 
                 <tr>
                   <td className="border-4 border-white p-5">
-                    {cashierCall_2?.queue_number}
+                    {cashierCall_2?.[0] ? cashierCall_2?.[0].queue_number : ''}
                   </td>
                   <td className="border-4 border-white p-5">2</td>
                 </tr>
                 <tr>
                   <td className="border-4 border-white p-5">
-                    {cashierCall_3?.queue_number}
+                    {cashierCall_3?.[0] ? cashierCall_3?.[0].queue_number : ''}
                   </td>
                   <td className="border-4 border-white p-5">3</td>
                 </tr>
                 <tr>
                   <td className="border-4 border-white p-5">
-                    {cashierCall_4?.queue_number}
+                   {cashierCall_4?.[0] ? cashierCall_4?.[0].queue_number : ''}
                   </td>
                   <td className="border-4 border-white p-5">4</td>
                 </tr>
@@ -201,25 +200,25 @@ const floor = () => {
               <tbody>
                 <tr>
                   <td className="border-4 border-white p-5">
-                    {pharmacyCall_1?.queue_number}
+                  {pharmacyCall_1?.[0] ? pharmacyCall_1?.[0].queue_number : ''}
                   </td>
                   <td className="border-4 border-white p-5">1</td>
                 </tr>
                 <tr>
                   <td className="border-4 border-white p-5">
-                    {pharmacyCall_2?.queue_number}
+                    {pharmacyCall_2?.[0] ? pharmacyCall_2?.[0].queue_number : ''}
                   </td>
                   <td className="border-4 border-white p-5">2</td>
                 </tr>
                 <tr>
                   <td className="border-4 border-white p-5">
-                    {pharmacyCall_3?.queue_number}
+                    {pharmacyCall_3?.[0] ? pharmacyCall_3?.[0].queue_number : ''}
                   </td>
                   <td className="border-4 border-white p-5">3</td>
                 </tr>
                 <tr>
                   <td className="border-4 border-white p-5">
-                    {pharmacyCall_4?.queue_number}
+                    {pharmacyCall_4?.[0] ? pharmacyCall_4?.[0].queue_number : ''}
                   </td>
                   <td className="border-4 border-white p-5">4</td>
                 </tr>
