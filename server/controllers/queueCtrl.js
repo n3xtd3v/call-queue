@@ -13,7 +13,7 @@ const queueCtrl = {
         FROM  call_queue_entry_nl_view as qe
         INNER JOIN call_queue_nl_view as cq on cq.call_queue_id = qe.call_queue_id
         WHERE  qe.current_call_queue_event_rcd 
-        IN('MISSEDCALL', 'CALL', 'WAITING') 
+        IN('WAITING', 'READY', 'CALL', 'SERVING', 'MISSEDCALL') 
         AND cq.call_queue_id 
         IN (${cashierId}, ${pharmacyId}) 
         AND cast(qe.lu_updated as date) = cast(getdate() as date)

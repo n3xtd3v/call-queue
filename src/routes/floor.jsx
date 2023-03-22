@@ -21,6 +21,7 @@ const floor = () => {
     return () => clearInterval(intervalData);
   }, []);
 
+  console.log('queues', queues);
   // useEffect(() => {
   //   const synth = window.speechSynthesis;
   //   const voices = synth.getVoices();
@@ -50,6 +51,7 @@ const floor = () => {
   }
 
   function filterQueueWaiting(event, type) {
+    console.log('event', event);
     return queues?.filter(
       (queue) =>
         queue.current_call_queue_event_rcd === event &&
@@ -64,21 +66,38 @@ const floor = () => {
         queue.call_queue_type_rcd === type
     );
   }
-
+  
 
   const cashierCall_1 = filterQueueCall("CALL", "CASHIER", "Cashier 1");
   const cashierCall_2 = filterQueueCall("CALL", "CASHIER", "Cashier 2");
   const cashierCall_3 = filterQueueCall("CALL", "CASHIER", "Cashier 3");
   const cashierCall_4 = filterQueueCall("CALL", "CASHIER", "Cashier 4");
-  const cashiersWaiting = filterQueueWaiting("WAITING", "CASHIER");
-  const cashiersMissedCall = filterQueueMissedCall("MISSEDCALL", "CASHIER");
 
+  const cashierCallServing_1 = filterQueueCall("SERVING", "CASHIER", "Cashier 1");
+  const cashierCallServing_2 = filterQueueCall("SERVING", "CASHIER", "Cashier 2");
+  const cashierCallServing_3 = filterQueueCall("SERVING", "CASHIER", "Cashier 3");
+  const cashierCallServing_4 = filterQueueCall("SERVING", "CASHIER", "Cashier 4");
+  
   const pharmacyCall_1 = filterQueueCall("CALL", "PHARMACY", "Pharmacy 1");
   const pharmacyCall_2 = filterQueueCall("CALL", "PHARMACY", "Pharmacy 2");
   const pharmacyCall_3 = filterQueueCall("CALL", "PHARMACY", "Pharmacy 3");
   const pharmacyCall_4 = filterQueueCall("CALL", "PHARMACY", "Pharmacy 4");
+
+  const pharmacyCallServing_1 = filterQueueCall("SERVING", "PHARMACY", "Pharmacy 1");
+  const pharmacyCallServing_2 = filterQueueCall("SERVING", "PHARMACY", "Pharmacy 2");
+  const pharmacyCallServing_3 = filterQueueCall("SERVING", "PHARMACY", "Pharmacy 3");
+  const pharmacyCallServing_4 = filterQueueCall("SERVING", "PHARMACY", "Pharmacy 4");
+  
+  const cashiersWaiting = filterQueueWaiting("WAITING", "CASHIER");
   const pharmacysWaiting = filterQueueWaiting("WAITING", "PHARMACY");
+  
+  const cashiersReady = filterQueueWaiting("READY", "CASHIER");
+  const pharmacysReady = filterQueueWaiting("READY", "PHARMACY");
+  
+  const cashiersMissedCall = filterQueueMissedCall("MISSEDCALL", "CASHIER");
   const pharmacysMissedCall = filterQueueMissedCall("MISSEDCALL", "PHARMACY");
+
+  console.log('cashierCallServing_2', cashierCallServing_2);
 
   const handleClickIconLocation = () => {
     navigate("/");
@@ -136,26 +155,34 @@ const floor = () => {
               <tbody>
                 <tr>
                   <td className="border-4 border-white p-5">
-                  {cashierCall_1?.[0] ? cashierCall_1?.[0].queue_number : ''}
+                  {cashierCall_1?.[0] ? cashierCall_1?.[0].queue_number 
+                    : cashierCallServing_1?.[0] ? cashierCallServing_1?.[0].queue_number 
+                    : '' }
                   </td>
                   <td className="border-4 border-white p-5">1</td>
                 </tr>
 
                 <tr>
                   <td className="border-4 border-white p-5">
-                    {cashierCall_2?.[0] ? cashierCall_2?.[0].queue_number : ''}
+                    {cashierCall_2?.[0] ? cashierCall_2?.[0].queue_number 
+                    : cashierCallServing_2?.[0] ? cashierCallServing_2?.[0].queue_number 
+                    : '' }
                   </td>
                   <td className="border-4 border-white p-5">2</td>
                 </tr>
                 <tr>
                   <td className="border-4 border-white p-5">
-                    {cashierCall_3?.[0] ? cashierCall_3?.[0].queue_number : ''}
+                  {cashierCall_3?.[0] ? cashierCall_3?.[0].queue_number 
+                    : cashierCallServing_3?.[0] ? cashierCallServing_3?.[0].queue_number 
+                    : '' }
                   </td>
                   <td className="border-4 border-white p-5">3</td>
                 </tr>
                 <tr>
                   <td className="border-4 border-white p-5">
-                   {cashierCall_4?.[0] ? cashierCall_4?.[0].queue_number : ''}
+                  {cashierCall_4?.[0] ? cashierCall_4?.[0].queue_number 
+                    : cashierCallServing_4?.[0] ? cashierCallServing_4?.[0].queue_number 
+                    : '' }
                   </td>
                   <td className="border-4 border-white p-5">4</td>
                 </tr>
@@ -167,6 +194,10 @@ const floor = () => {
                 WAITING / รอชำระเงิน{" "}
                 {cashiersWaiting?.map(
                   (cashierWaiting) => cashierWaiting.queue_number + ", "
+                )}
+                
+                {cashiersReady?.map(
+                  (cashierReady) => cashierReady.queue_number + ", "
                 )}
               </div>
             </div>
@@ -200,25 +231,33 @@ const floor = () => {
               <tbody>
                 <tr>
                   <td className="border-4 border-white p-5">
-                  {pharmacyCall_1?.[0] ? pharmacyCall_1?.[0].queue_number : ''}
+                  {pharmacyCall_1?.[0] ? pharmacyCall_1?.[0].queue_number 
+                    : pharmacyCallServing_1?.[0] ? pharmacyCallServing_1?.[0].queue_number 
+                    : '' }
                   </td>
                   <td className="border-4 border-white p-5">1</td>
                 </tr>
                 <tr>
                   <td className="border-4 border-white p-5">
-                    {pharmacyCall_2?.[0] ? pharmacyCall_2?.[0].queue_number : ''}
+                  {pharmacyCall_2?.[0] ? pharmacyCall_2?.[0].queue_number 
+                    : pharmacyCallServing_2?.[0] ? pharmacyCallServing_2?.[0].queue_number 
+                    : '' }
                   </td>
                   <td className="border-4 border-white p-5">2</td>
                 </tr>
                 <tr>
                   <td className="border-4 border-white p-5">
-                    {pharmacyCall_3?.[0] ? pharmacyCall_3?.[0].queue_number : ''}
+                  {pharmacyCall_3?.[0] ? pharmacyCall_3?.[0].queue_number 
+                    : pharmacyCallServing_3?.[0] ? pharmacyCallServing_3?.[0].queue_number 
+                    : '' }
                   </td>
                   <td className="border-4 border-white p-5">3</td>
                 </tr>
                 <tr>
                   <td className="border-4 border-white p-5">
-                    {pharmacyCall_4?.[0] ? pharmacyCall_4?.[0].queue_number : ''}
+                  {pharmacyCall_4?.[0] ? pharmacyCall_4?.[0].queue_number 
+                    : pharmacyCallServing_4?.[0] ? pharmacyCallServing_4?.[0].queue_number 
+                    : '' }
                   </td>
                   <td className="border-4 border-white p-5">4</td>
                 </tr>
@@ -230,6 +269,10 @@ const floor = () => {
                 WAITING / รอรับยา{" "}
                 {pharmacysWaiting?.map(
                   (pharmacyWaiting) => pharmacyWaiting.queue_number + ", "
+                )}
+
+                {pharmacysReady?.map(
+                  (pharmacyReady) => pharmacyReady.queue_number + ", "
                 )}
               </div>
             </div>
