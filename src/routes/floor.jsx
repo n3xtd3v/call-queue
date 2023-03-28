@@ -141,7 +141,7 @@ const floor = () => {
           <div className="flex flex-col justify-center items-center main-color w-full border p-5 border-black">
             <table className="border-collapse border border-white m-4 w-full secondary-color text-black">
               <thead>
-                <tr className="text-4xl">
+                <tr className="text-3xl">
                   <th className="border-4 border-white p-5">Service Number</th>
                   <th className="border-4 border-white p-5">
                     Counter / ช่องชำระเงิน
@@ -217,7 +217,7 @@ const floor = () => {
           <div className="flex flex-col justify-center items-center main-color w-full border p-5 border-black">
             <table className="border-collapse border border-white m-4 w-full green-color text-black">
               <thead>
-                <tr className="text-4xl">
+                <tr className="text-3xl">
                   <th className="border-4 border-white p-5">Service Number</th>
                   <th className="border-4 border-white p-5">
                     Counter / ช่องรับยา
