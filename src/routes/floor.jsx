@@ -21,7 +21,6 @@ const floor = () => {
     return () => clearInterval(intervalData);
   }, []);
 
-  console.log('queues', queues);
   // useEffect(() => {
   //   const synth = window.speechSynthesis;
   //   const voices = synth.getVoices();
@@ -51,7 +50,6 @@ const floor = () => {
   }
 
   function filterQueueWaiting(event, type) {
-    console.log('event', event);
     return queues?.filter(
       (queue) =>
         queue.current_call_queue_event_rcd === event &&
@@ -97,8 +95,6 @@ const floor = () => {
   const cashiersMissedCall = filterQueueMissedCall("MISSEDCALL", "CASHIER");
   const pharmacysMissedCall = filterQueueMissedCall("MISSEDCALL", "PHARMACY");
 
-  console.log('cashierCallServing_2', cashierCallServing_2);
-
   const handleClickIconLocation = () => {
     navigate("/");
   };
@@ -138,14 +134,14 @@ const floor = () => {
 
       <div className="grid grid-cols-2 gap-10 min-h-screen justify-center items-center text-white text-center px-10 text-5xl">
         <div className="flex flex-col justify-items-center items-center">
-          <div className="main-color w-full my-3 p-5 border border-black">
+          <div className="main-color w-full my-3 p-5 border border-black ">
             Cashier / การเงิน
           </div>
 
           <div className="flex flex-col justify-center items-center main-color w-full border p-5 border-black">
             <table className="border-collapse border border-white m-4 w-full secondary-color text-black">
               <thead>
-                <tr>
+                <tr className="text-4xl">
                   <th className="border-4 border-white p-5">Service Number</th>
                   <th className="border-4 border-white p-5">
                     Counter / ช่องชำระเงิน
@@ -221,7 +217,7 @@ const floor = () => {
           <div className="flex flex-col justify-center items-center main-color w-full border p-5 border-black">
             <table className="border-collapse border border-white m-4 w-full green-color text-black">
               <thead>
-                <tr>
+                <tr className="text-4xl">
                   <th className="border-4 border-white p-5">Service Number</th>
                   <th className="border-4 border-white p-5">
                     Counter / ช่องรับยา
