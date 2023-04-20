@@ -11,11 +11,11 @@ export default function Root() {
   useEffect(() => {
     const dataFetch = async () => {
       const dataCashier = await (
-        await fetch('http://localhost:7070/api/floors/cashier')
+        await fetch('http://10.1.20.36:7071/api/floors/cashier')
       ).json()
 
       const dataPharmacy = await (
-        await fetch('http://localhost:7070/api/floors/pharmacy')
+        await fetch('http://10.1.20.36:7071/api/floors/pharmacy')
       ).json()
 
       setFloorsCashier(dataCashier.floors)

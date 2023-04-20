@@ -11,7 +11,7 @@ const floor = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch(`http://localhost:7070/api/queues/${floorId}`);
+      const res = await fetch(`http://10.1.20.36:7071/api/queues/${floorId}`);
       const data = await res.json();
 
       setQueues(data.queues);
@@ -39,6 +39,7 @@ const floor = () => {
   //     }
   //   }
   // }, [queues]);
+
 
   function filterQueueCall(event, type, display) {
     return queues?.filter(
@@ -141,14 +142,14 @@ const floor = () => {
           <div className="flex flex-col justify-center items-center main-color w-full border p-5 border-black">
             <table className="border-collapse border border-white m-4 w-full secondary-color text-black">
               <thead>
-                <tr className="text-4xl">
+                <tr className="text-3xl">
                   <th className="border-4 border-white p-5">Service Number</th>
                   <th className="border-4 border-white p-5">
                     Counter / ช่องชำระเงิน
                   </th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="font-black">
                 <tr>
                   <td className="border-4 border-white p-5">
                   {cashierCall_1?.[0] ? cashierCall_1?.[0].queue_number 
@@ -217,14 +218,14 @@ const floor = () => {
           <div className="flex flex-col justify-center items-center main-color w-full border p-5 border-black">
             <table className="border-collapse border border-white m-4 w-full green-color text-black">
               <thead>
-                <tr className="text-4xl">
+                <tr className="text-3xl">
                   <th className="border-4 border-white p-5">Service Number</th>
                   <th className="border-4 border-white p-5">
                     Counter / ช่องรับยา
                   </th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="font-black">
                 <tr>
                   <td className="border-4 border-white p-5">
                   {pharmacyCall_1?.[0] ? pharmacyCall_1?.[0].queue_number 

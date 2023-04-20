@@ -11,17 +11,18 @@ app.use(cors())
 app.use('/api', require('./routes/queueRouter'))
 app.use('/api', require('./routes/floorRouter'))
 
-;(async () => {
-  try {
-    await mssql.connect(dbConfig)
-    console.log('Connected to database mssql.')
-  } catch (err) {
-    console.log(err.message)
-  }
+;
+(async() => {
+    try {
+        await mssql.connect(dbConfig)
+        console.log('Connected to database mssql.')
+    } catch (err) {
+        console.log(err.message)
+    }
 })()
 
 const PORT = process.env.PORT
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`)
+    console.log(`Server is running on port ${PORT}`)
 })
