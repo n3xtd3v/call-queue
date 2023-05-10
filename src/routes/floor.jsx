@@ -3,43 +3,64 @@ import { useParams, useNavigate } from "react-router-dom";
 import "../styles/floor.css";
 
 const floor = () => {
-  const [queues, setQueues] = useState(null);
-  // const utterThis = new SpeechSynthesisUtterance();
+  const [queues, setQueues] = useState([]);
+  const [openOptionSpeak, setOpenOptionSpeak] = useState(false)
+  const [voices, setVoices] = useState([])
+  const [rate, setRate] = useState(0.8)
+  const [pitch, setPitch] = useState(1)
 
   const { floorId } = useParams();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch(`http://10.1.20.36:7071/api/queues/${floorId}`);
-      const data = await res.json();
-
-      setQueues(data.queues);
-    };
-
-    const intervalData = setInterval(fetchData, 7000);
-    return () => clearInterval(intervalData);
-  }, []);
+  // const fetchQueuesData = async () => {
+  //   const response  = await fetch(`http://10.1.20.36:7071/api/queues/${floorId}`)
+  //   const data = await response.json()
+  //   setQueues(data.queues)
+  // }
 
   // useEffect(() => {
-  //   const synth = window.speechSynthesis;
-  //   const voices = synth.getVoices();
+  //   const interval = setInterval(() => {
+  //     fetchQueuesData()
+  //   }, 7000)
 
-  //   for (let i = 0; i < queues?.length; i++) {
-  //     const queue = queues[i];
-  //     if (queue.current_call_queue_event_rcd === "CALL") {
-  //       const voiceEn = voices[1];
-  //       utterThis.text = `invite number ${queue.queue_number
-  //         .split("")
-  //         .join(" ")} please contact counter`;
-  //       utterThis.voice = voiceEn;
-  //       utterThis.pitch = 1;
-  //       utterThis.rate = 0.6;
-  //       speechSynthesis.speak(utterThis);
-  //     }
-  //   }
-  // }, [queues]);
+  //   return () => clearInterval(interval)
+  // }, []);
 
+  useEffect(() => {
+    // const synth = window.speechSynthesis;
+    // const utterance = new SpeechSynthesisUtterance()
+    // const voices = synth.getVoices();
+    // setVoices(voices)
+    for (let i = 0; i < queues?.length; i++) {
+      const queue = queues[i];
+      if (queue.current_call_queue_event_rcd === "CALL") {
+        const filterVoiceAria = voices.filter((voice) => voice.voiceURI === "Microsoft Aria Online (Natural) - English (United States)")
+        const filterVoiceGuy = voices.filter((voice) => voice.voiceURI === "Microsoft Guy Online (Natural) - English (United States)")
+        utterance.text = `
+          Number ${queue.queue_number.split("").join(" ")} please contact ${queue.call_display_info}
+          `;
+        utterance.voice = filterVoiceAria[0];
+        utterance.pitch = pitch;
+        utterance.rate = rate;
+        synth.speak(utterance);
+      }
+    }
+  }, [queues]);
+
+  const handleChangePitch = (e) => {
+    setPitch(e.target.value)
+  }
+
+  const handleChangeRate = (e) => {
+    setRate(e.target.value)
+  }
+
+  function getVoices() {
+    const synth = window.speechSynthesis;
+    const voices = synth.getVoices();
+    console.log(voices);
+  }
+  getVoices()
 
   function filterQueueCall(event, type, display) {
     return queues?.filter(
@@ -65,7 +86,6 @@ const floor = () => {
         queue.call_queue_type_rcd === type
     );
   }
-  
 
   const cashierCall_1 = filterQueueCall("CALL", "CASHIER", "Cashier 1");
   const cashierCall_2 = filterQueueCall("CALL", "CASHIER", "Cashier 2");
@@ -104,23 +124,24 @@ const floor = () => {
     <>
       <div className="w-5 h-5 fixed top-0 right-0 dropdown">
         <div className="dropdown-menu">
-          {/* <div className="mx-1">
+          <div className="mx-1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="currentColor"
-              className="w-6 h-6 cursor-pointer"
+              className="w-6 h-6 cursor-pointer hover:opacity-50"
+              onClick={() => setOpenOptionSpeak(!openOptionSpeak)}
             >
               <path d="M18.75 12.75h1.5a.75.75 0 000-1.5h-1.5a.75.75 0 000 1.5zM12 6a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5A.75.75 0 0112 6zM12 18a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5A.75.75 0 0112 18zM3.75 6.75h1.5a.75.75 0 100-1.5h-1.5a.75.75 0 000 1.5zM5.25 18.75h-1.5a.75.75 0 010-1.5h1.5a.75.75 0 010 1.5zM3 12a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5A.75.75 0 013 12zM9 3.75a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5zM12.75 12a2.25 2.25 0 114.5 0 2.25 2.25 0 01-4.5 0zM9 15.75a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5z" />
             </svg>
-          </div> */}
+          </div>
 
           <div className="mx-1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="currentColor"
-              className="w-6 h-6 cursor-pointer"
+              className="w-6 h-6 cursor-pointer hover:opacity-50"
               onClick={handleClickIconLocation}
             >
               <path
@@ -285,7 +306,98 @@ const floor = () => {
           </div>
         </div>
       </div>
+
+      {true && 
+         <div className="modal">
+          <div className="modal-content">
+            <form>
+              <div className="space-y-5">
+                <div className="flex justify-between">
+                  <h2 className="text-base font-semibold leading-7 text-gray-900">Settings voice</h2>
+
+                  <span className="close">&times;</span>
+                </div>
+
+                <div className="text-center">
+                  <div className="sm:col-span-4">
+                        <div className="mt-2">
+                          <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                          Language
+                          </label>
+                          {/* <div className="mt-2">
+                            <select
+                              id="country"
+                              name="country"
+                              autoComplete="country-name"
+                              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
+                            >
+                              {
+                                voices.map((voice, index) => 
+                                  <option key={index}>{voice.voiceURI}</option>
+                                )
+                              }
+                            </select>
+                        </div> */}
+                      </div>
+                    </div>
+
+                  <div className="sm:col-span-4">
+                      <div className="mt-2">
+                        <div className="flex justify-around">
+                          <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                            Pitch
+                          </label>
+
+                          <p>{pitch}</p>
+                        </div>
+
+                        <div className="mt-2">
+                          <input
+                            id="pitch"
+                            type="range"
+                            min="0.5"
+                            max="2"
+                            value={pitch}
+                            step="0.1"
+                            className="block w-full"
+                            onChange={handleChangePitch}
+                          />
+                        </div>
+                    </div>
+                  </div>
+
+                    <div className="sm:col-span-4">
+                      <div className="mt-2">
+                        <div className="flex justify-around">
+                          <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                            Rate
+                          </label>
+
+                          <p>{rate}</p>
+                        </div>
+
+                        <div className="mt-2">
+                          <input
+                            id="rate"
+                            type="range"
+                            min="0.5"
+                            max="2"
+                            value={rate}
+                            step="0.1"
+                            className="block w-full"
+                            onChange={handleChangeRate}
+                          />
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div> 
+        }
     </>
   );
 };
+
 export default floor;
