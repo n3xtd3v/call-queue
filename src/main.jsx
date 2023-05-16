@@ -1,26 +1,26 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import './index.css'
-import Root from './routes/root'
-import Floor from './routes/floor'
-import ErrorPage from './error-page'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import "./index.css";
+import Root from "./routes/root";
+import Floor from "./routes/floor";
+import ErrorPage from "./error-page";
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <Root />,
     errorElement: <ErrorPage />,
   },
   {
-    path: '/floor/:floorId',
+    path: "/floor/:floorId",
     element: <Floor />,
     errorElement: <ErrorPage />,
   },
-])
+]);
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
-)
+ReactDOM.createRoot(document.getElementById("root")).render(
+  //<React.StrictMode>
+  <RouterProvider router={router} />
+  //</React.StrictMode>
+);

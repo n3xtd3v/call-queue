@@ -4,63 +4,89 @@ import "../styles/floor.css";
 
 const floor = () => {
   const [queues, setQueues] = useState([]);
-  const [openOptionSpeak, setOpenOptionSpeak] = useState(false)
-  const [voices, setVoices] = useState([])
-  const [rate, setRate] = useState(0.8)
-  const [pitch, setPitch] = useState(1)
+  const [openOptionSpeak, setOpenOptionSpeak] = useState(false);
+  const [voices, setVoices] = useState([]);
+  const [selectVoice, setSelectVoice] = useState("");
+  const [textSpeech, setTextSpeech] = useState("");
+  const [rate, setRate] = useState(0.6);
+  const [pitch, setPitch] = useState(1);
 
   const { floorId } = useParams();
   const navigate = useNavigate();
-
-  // const fetchQueuesData = async () => {
-  //   const response  = await fetch(`http://10.1.20.36:7071/api/queues/${floorId}`)
-  //   const data = await response.json()
-  //   setQueues(data.queues)
-  // }
-
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     fetchQueuesData()
-  //   }, 7000)
-
-  //   return () => clearInterval(interval)
-  // }, []);
+  const synth = window.speechSynthesis;
 
   useEffect(() => {
-    // const synth = window.speechSynthesis;
-    // const utterance = new SpeechSynthesisUtterance()
-    // const voices = synth.getVoices();
-    // setVoices(voices)
-    for (let i = 0; i < queues?.length; i++) {
-      const queue = queues[i];
-      if (queue.current_call_queue_event_rcd === "CALL") {
-        const filterVoiceAria = voices.filter((voice) => voice.voiceURI === "Microsoft Aria Online (Natural) - English (United States)")
-        const filterVoiceGuy = voices.filter((voice) => voice.voiceURI === "Microsoft Guy Online (Natural) - English (United States)")
-        utterance.text = `
-          Number ${queue.queue_number.split("").join(" ")} please contact ${queue.call_display_info}
-          `;
-        utterance.voice = filterVoiceAria[0];
-        utterance.pitch = pitch;
-        utterance.rate = rate;
-        synth.speak(utterance);
-      }
+    synth.onvoiceschanged = () => {
+      let voicesName = [];
+      const voices = synth.getVoices();
+
+      voices.forEach((voice) => {
+        voicesName.push(voice.name);
+      });
+
+      setVoices(voicesName);
+    };
+  });
+
+  const fetchDataQueues = async () => {
+    const response = await fetch(
+      `http://10.1.20.36:7071/api/queues/${floorId}`
+    );
+
+    const data = await response.json();
+
+    setQueues(data.queues);
+  };
+
+  useEffect(() => {
+    setInterval(() => {
+      fetchDataQueues();
+    }, 1000);
+  }, []);
+
+  useEffect(() => {
+    if (queues.length > 0 && synth.speaking === false) {
+      const utterance = new SpeechSynthesisUtterance();
+      const voices = synth.getVoices();
+
+      console.log("queues", queues);
+
+      const queuesCall = queues.filter(
+        (queue) => queue.current_call_queue_event_rcd === "CALL"
+      );
+
+      let queuesCalltoString = queuesCall.map(
+        ({ queue_number, call_display_info }) =>
+          `Number ${queue_number} please contact ${call_display_info}`
+      );
+
+      const filterVoiceAria = voices.filter(
+        (voice) =>
+          voice.voiceURI ===
+          "Microsoft Aria Online (Natural) - English (United States)"
+      );
+
+      const filterVoiceGuy = voices.filter(
+        (voice) =>
+          voice.voiceURI ===
+          "Microsoft Guy Online (Natural) - English (United States)"
+      );
+
+      utterance.text = queuesCalltoString;
+
+      utterance.voice = selectVoice
+        ? (utterance.voice = synth.getVoices().filter(function (voice) {
+            return voice.name == selectVoice;
+          })[0])
+        : filterVoiceAria[0];
+      utterance.pitch = pitch;
+      utterance.rate = rate;
+      synth.speak(utterance);
+      utterance.onend = () => {
+        synth.cancel();
+      };
     }
   }, [queues]);
-
-  const handleChangePitch = (e) => {
-    setPitch(e.target.value)
-  }
-
-  const handleChangeRate = (e) => {
-    setRate(e.target.value)
-  }
-
-  function getVoices() {
-    const synth = window.speechSynthesis;
-    const voices = synth.getVoices();
-    console.log(voices);
-  }
-  getVoices()
 
   function filterQueueCall(event, type, display) {
     return queues?.filter(
@@ -71,6 +97,62 @@ const floor = () => {
     );
   }
 
+  const cashierCall_1 = filterQueueCall("CALL", "CASHIER", "Cashier 1");
+  const cashierCallServing_1 = filterQueueCall(
+    "SERVING",
+    "CASHIER",
+    "Cashier 1"
+  );
+
+  const cashierCall_2 = filterQueueCall("CALL", "CASHIER", "Cashier 2");
+  const cashierCallServing_2 = filterQueueCall(
+    "SERVING",
+    "CASHIER",
+    "Cashier 2"
+  );
+
+  const cashierCall_3 = filterQueueCall("CALL", "CASHIER", "Cashier 3");
+  const cashierCallServing_3 = filterQueueCall(
+    "SERVING",
+    "CASHIER",
+    "Cashier 3"
+  );
+
+  const cashierCall_4 = filterQueueCall("CALL", "CASHIER", "Cashier 4");
+  const cashierCallServing_4 = filterQueueCall(
+    "SERVING",
+    "CASHIER",
+    "Cashier 4"
+  );
+
+  const pharmacyCall_1 = filterQueueCall("CALL", "PHARMACY", "Pharmacy 1");
+  const pharmacyCallServing_1 = filterQueueCall(
+    "SERVING",
+    "PHARMACY",
+    "Pharmacy 1"
+  );
+
+  const pharmacyCall_2 = filterQueueCall("CALL", "PHARMACY", "Pharmacy 2");
+  const pharmacyCallServing_2 = filterQueueCall(
+    "SERVING",
+    "PHARMACY",
+    "Pharmacy 2"
+  );
+
+  const pharmacyCall_3 = filterQueueCall("CALL", "PHARMACY", "Pharmacy 3");
+  const pharmacyCallServing_3 = filterQueueCall(
+    "SERVING",
+    "PHARMACY",
+    "Pharmacy 3"
+  );
+
+  const pharmacyCall_4 = filterQueueCall("CALL", "PHARMACY", "Pharmacy 4");
+  const pharmacyCallServing_4 = filterQueueCall(
+    "SERVING",
+    "PHARMACY",
+    "Pharmacy 4"
+  );
+
   function filterQueueWaiting(event, type) {
     return queues?.filter(
       (queue) =>
@@ -78,6 +160,34 @@ const floor = () => {
         queue.call_queue_type_rcd === type
     );
   }
+
+  const cashiersWaiting = filterQueueWaiting("WAITING", "CASHIER");
+  const pharmacysWaiting = filterQueueWaiting("WAITING", "PHARMACY");
+
+  const cashiersReady = filterQueueWaiting("READY", "CASHIER");
+  const pharmacysReady = filterQueueWaiting("READY", "PHARMACY");
+
+  const combineWaitingAndReady = (waiting, ready) => {
+    return [...waiting, ...ready];
+  };
+
+  const combineCashiers = combineWaitingAndReady(
+    [...cashiersWaiting],
+    [...cashiersReady]
+  );
+  let combineCashiersNumber = [];
+  combineCashiers.forEach((combineCashier) => {
+    combineCashiersNumber.push(combineCashier.queue_number);
+  });
+
+  const combinePharmacys = combineWaitingAndReady(
+    [...pharmacysWaiting],
+    [...pharmacysReady]
+  );
+  let combinePharmacysNumber = [];
+  combinePharmacys.forEach((combinePharmacy) => {
+    combinePharmacysNumber.push(combinePharmacy.queue_number);
+  });
 
   function filterQueueMissedCall(event, type) {
     return queues?.filter(
@@ -87,34 +197,48 @@ const floor = () => {
     );
   }
 
-  const cashierCall_1 = filterQueueCall("CALL", "CASHIER", "Cashier 1");
-  const cashierCall_2 = filterQueueCall("CALL", "CASHIER", "Cashier 2");
-  const cashierCall_3 = filterQueueCall("CALL", "CASHIER", "Cashier 3");
-  const cashierCall_4 = filterQueueCall("CALL", "CASHIER", "Cashier 4");
-
-  const cashierCallServing_1 = filterQueueCall("SERVING", "CASHIER", "Cashier 1");
-  const cashierCallServing_2 = filterQueueCall("SERVING", "CASHIER", "Cashier 2");
-  const cashierCallServing_3 = filterQueueCall("SERVING", "CASHIER", "Cashier 3");
-  const cashierCallServing_4 = filterQueueCall("SERVING", "CASHIER", "Cashier 4");
-  
-  const pharmacyCall_1 = filterQueueCall("CALL", "PHARMACY", "Pharmacy 1");
-  const pharmacyCall_2 = filterQueueCall("CALL", "PHARMACY", "Pharmacy 2");
-  const pharmacyCall_3 = filterQueueCall("CALL", "PHARMACY", "Pharmacy 3");
-  const pharmacyCall_4 = filterQueueCall("CALL", "PHARMACY", "Pharmacy 4");
-
-  const pharmacyCallServing_1 = filterQueueCall("SERVING", "PHARMACY", "Pharmacy 1");
-  const pharmacyCallServing_2 = filterQueueCall("SERVING", "PHARMACY", "Pharmacy 2");
-  const pharmacyCallServing_3 = filterQueueCall("SERVING", "PHARMACY", "Pharmacy 3");
-  const pharmacyCallServing_4 = filterQueueCall("SERVING", "PHARMACY", "Pharmacy 4");
-  
-  const cashiersWaiting = filterQueueWaiting("WAITING", "CASHIER");
-  const pharmacysWaiting = filterQueueWaiting("WAITING", "PHARMACY");
-  
-  const cashiersReady = filterQueueWaiting("READY", "CASHIER");
-  const pharmacysReady = filterQueueWaiting("READY", "PHARMACY");
-  
   const cashiersMissedCall = filterQueueMissedCall("MISSEDCALL", "CASHIER");
+  let cashiersMissedCallNumber = [];
+  cashiersMissedCall.forEach((cashierMissedCall) => {
+    cashiersMissedCallNumber.push(cashierMissedCall.queue_number);
+  });
+
   const pharmacysMissedCall = filterQueueMissedCall("MISSEDCALL", "PHARMACY");
+  let pharmacysMissedCallNumber = [];
+  pharmacysMissedCall.forEach((pharmacyMissedCall) => {
+    pharmacysMissedCallNumber.push(pharmacyMissedCall.queue_number);
+  });
+
+  const handleChangeTextSpeech = (e) => {
+    const { value } = e.target;
+    setTextSpeech(value);
+  };
+
+  const handleSelectLanguage = (e) => {
+    const { value } = e.target;
+    setSelectVoice(value);
+  };
+
+  const handleChangePitch = (e) => {
+    setPitch(e.target.value);
+  };
+
+  const handleChangeRate = (e) => {
+    setRate(e.target.value);
+  };
+
+  const handleSpeak = (e) => {
+    e.preventDefault();
+    const synth = window.speechSynthesis;
+    const speakText = new SpeechSynthesisUtterance();
+    speakText.voice = synth.getVoices().filter(function (voice) {
+      return voice.name == selectVoice;
+    })[0];
+    speakText.text = textSpeech;
+    speakText.rate = rate;
+    speakText.pitch = pitch;
+    synth.speak(speakText);
+  };
 
   const handleClickIconLocation = () => {
     navigate("/");
@@ -173,34 +297,42 @@ const floor = () => {
               <tbody className="font-black">
                 <tr>
                   <td className="border-4 border-white p-5">
-                  {cashierCall_1?.[0] ? cashierCall_1?.[0].queue_number 
-                    : cashierCallServing_1?.[0] ? cashierCallServing_1?.[0].queue_number 
-                    : '' }
+                    {cashierCall_1?.[0]
+                      ? cashierCall_1?.[0].queue_number
+                      : cashierCallServing_1?.[0]
+                      ? cashierCallServing_1?.[0].queue_number
+                      : ""}
                   </td>
                   <td className="border-4 border-white p-5">1</td>
                 </tr>
 
                 <tr>
                   <td className="border-4 border-white p-5">
-                    {cashierCall_2?.[0] ? cashierCall_2?.[0].queue_number 
-                    : cashierCallServing_2?.[0] ? cashierCallServing_2?.[0].queue_number 
-                    : '' }
+                    {cashierCall_2?.[0]
+                      ? cashierCall_2?.[0].queue_number
+                      : cashierCallServing_2?.[0]
+                      ? cashierCallServing_2?.[0].queue_number
+                      : ""}
                   </td>
                   <td className="border-4 border-white p-5">2</td>
                 </tr>
                 <tr>
                   <td className="border-4 border-white p-5">
-                  {cashierCall_3?.[0] ? cashierCall_3?.[0].queue_number 
-                    : cashierCallServing_3?.[0] ? cashierCallServing_3?.[0].queue_number 
-                    : '' }
+                    {cashierCall_3?.[0]
+                      ? cashierCall_3?.[0].queue_number
+                      : cashierCallServing_3?.[0]
+                      ? cashierCallServing_3?.[0].queue_number
+                      : ""}
                   </td>
                   <td className="border-4 border-white p-5">3</td>
                 </tr>
                 <tr>
                   <td className="border-4 border-white p-5">
-                  {cashierCall_4?.[0] ? cashierCall_4?.[0].queue_number 
-                    : cashierCallServing_4?.[0] ? cashierCallServing_4?.[0].queue_number 
-                    : '' }
+                    {cashierCall_4?.[0]
+                      ? cashierCall_4?.[0].queue_number
+                      : cashierCallServing_4?.[0]
+                      ? cashierCallServing_4?.[0].queue_number
+                      : ""}
                   </td>
                   <td className="border-4 border-white p-5">4</td>
                 </tr>
@@ -209,23 +341,14 @@ const floor = () => {
 
             <div className="main-color w-full my-3 p-5 border border-black whitespace-nowrap truncate">
               <div className="scrolling">
-                WAITING / รอชำระเงิน{" "}
-                {cashiersWaiting?.map(
-                  (cashierWaiting) => cashierWaiting.queue_number + ", "
-                )}
-                
-                {cashiersReady?.map(
-                  (cashierReady) => cashierReady.queue_number + ", "
-                )}
+                WAITING / รอชำระเงิน {combineCashiersNumber.join(", ")}
               </div>
             </div>
 
             <div className="main-color w-full my-3 p-5 border border-black whitespace-nowrap truncate">
               <div className="scrolling text-yellow-300">
                 MISSED CALL / กรุณาติดต่อการเงิน{" "}
-                {cashiersMissedCall?.map(
-                  (cashierMissedCall) => cashierMissedCall.queue_number + ", "
-                )}
+                {cashiersMissedCallNumber.join(", ")}
               </div>
             </div>
           </div>
@@ -249,33 +372,41 @@ const floor = () => {
               <tbody className="font-black">
                 <tr>
                   <td className="border-4 border-white p-5">
-                  {pharmacyCall_1?.[0] ? pharmacyCall_1?.[0].queue_number 
-                    : pharmacyCallServing_1?.[0] ? pharmacyCallServing_1?.[0].queue_number 
-                    : '' }
+                    {pharmacyCall_1?.[0]
+                      ? pharmacyCall_1?.[0].queue_number
+                      : pharmacyCallServing_1?.[0]
+                      ? pharmacyCallServing_1?.[0].queue_number
+                      : ""}
                   </td>
                   <td className="border-4 border-white p-5">1</td>
                 </tr>
                 <tr>
                   <td className="border-4 border-white p-5">
-                  {pharmacyCall_2?.[0] ? pharmacyCall_2?.[0].queue_number 
-                    : pharmacyCallServing_2?.[0] ? pharmacyCallServing_2?.[0].queue_number 
-                    : '' }
+                    {pharmacyCall_2?.[0]
+                      ? pharmacyCall_2?.[0].queue_number
+                      : pharmacyCallServing_2?.[0]
+                      ? pharmacyCallServing_2?.[0].queue_number
+                      : ""}
                   </td>
                   <td className="border-4 border-white p-5">2</td>
                 </tr>
                 <tr>
                   <td className="border-4 border-white p-5">
-                  {pharmacyCall_3?.[0] ? pharmacyCall_3?.[0].queue_number 
-                    : pharmacyCallServing_3?.[0] ? pharmacyCallServing_3?.[0].queue_number 
-                    : '' }
+                    {pharmacyCall_3?.[0]
+                      ? pharmacyCall_3?.[0].queue_number
+                      : pharmacyCallServing_3?.[0]
+                      ? pharmacyCallServing_3?.[0].queue_number
+                      : ""}
                   </td>
                   <td className="border-4 border-white p-5">3</td>
                 </tr>
                 <tr>
                   <td className="border-4 border-white p-5">
-                  {pharmacyCall_4?.[0] ? pharmacyCall_4?.[0].queue_number 
-                    : pharmacyCallServing_4?.[0] ? pharmacyCallServing_4?.[0].queue_number 
-                    : '' }
+                    {pharmacyCall_4?.[0]
+                      ? pharmacyCall_4?.[0].queue_number
+                      : pharmacyCallServing_4?.[0]
+                      ? pharmacyCallServing_4?.[0].queue_number
+                      : ""}
                   </td>
                   <td className="border-4 border-white p-5">4</td>
                 </tr>
@@ -284,118 +415,156 @@ const floor = () => {
 
             <div className="main-color w-full my-3 p-5 border border-black whitespace-nowrap truncate">
               <div className="scrolling">
-                WAITING / รอรับยา{" "}
-                {pharmacysWaiting?.map(
-                  (pharmacyWaiting) => pharmacyWaiting.queue_number + ", "
-                )}
-
-                {pharmacysReady?.map(
-                  (pharmacyReady) => pharmacyReady.queue_number + ", "
-                )}
+                WAITING / รอรับยา {combinePharmacysNumber.join(", ")}
               </div>
             </div>
 
             <div className="main-color w-full my-3 p-5 border border-black whitespace-nowrap truncate">
               <div className="scrolling text-yellow-300">
                 MISSED CALL / กรุณาติดต่อเภสัชกร{" "}
-                {pharmacysMissedCall?.map(
-                  (pharmacyMissedCall) => pharmacyMissedCall.queue_number + ", "
-                )}
+                {pharmacysMissedCallNumber.join(", ")}
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {true && 
-         <div className="modal">
+      {openOptionSpeak && (
+        <div className="modal">
           <div className="modal-content">
             <form>
               <div className="space-y-5">
                 <div className="flex justify-between">
-                  <h2 className="text-base font-semibold leading-7 text-gray-900">Settings voice</h2>
+                  <h2 className="text-base font-semibold leading-7 text-gray-900">
+                    Settings voice
+                  </h2>
 
-                  <span className="close">&times;</span>
+                  <span
+                    className="close"
+                    onClick={() => setOpenOptionSpeak(!setOpenOptionSpeak)}
+                  >
+                    &times;
+                  </span>
                 </div>
 
                 <div className="text-center">
                   <div className="sm:col-span-4">
-                        <div className="mt-2">
-                          <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                          Language
-                          </label>
-                          {/* <div className="mt-2">
-                            <select
-                              id="country"
-                              name="country"
-                              autoComplete="country-name"
-                              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
-                            >
-                              {
-                                voices.map((voice, index) => 
-                                  <option key={index}>{voice.voiceURI}</option>
-                                )
-                              }
-                            </select>
-                        </div> */}
-                      </div>
-                    </div>
-
-                  <div className="sm:col-span-4">
+                    <div className="mt-2">
+                      <label
+                        htmlFor="email"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
+                        Voice
+                      </label>
                       <div className="mt-2">
-                        <div className="flex justify-around">
-                          <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                            Pitch
-                          </label>
-
-                          <p>{pitch}</p>
-                        </div>
-
-                        <div className="mt-2">
-                          <input
-                            id="pitch"
-                            type="range"
-                            min="0.5"
-                            max="2"
-                            value={pitch}
-                            step="0.1"
-                            className="block w-full"
-                            onChange={handleChangePitch}
-                          />
-                        </div>
+                        <select
+                          id="country"
+                          name="country"
+                          autoComplete="country-name"
+                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
+                          onChange={handleSelectLanguage}
+                        >
+                          {voices.map((voice, index) => (
+                            <option key={index} value={voice}>
+                              {voice}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
                     </div>
                   </div>
 
-                    <div className="sm:col-span-4">
+                  <div className="sm:col-span-4">
+                    <div className="mt-2">
+                      <div className="flex justify-around">
+                        <label
+                          htmlFor="email"
+                          className="block text-sm font-medium leading-6 text-gray-900"
+                        >
+                          Pitch
+                        </label>
+
+                        <p>{pitch}</p>
+                      </div>
+
                       <div className="mt-2">
-                        <div className="flex justify-around">
-                          <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                            Rate
-                          </label>
+                        <input
+                          id="pitch"
+                          type="range"
+                          min="0.5"
+                          max="2"
+                          value={pitch}
+                          step="0.1"
+                          className="block w-full"
+                          onChange={handleChangePitch}
+                        />
+                      </div>
+                    </div>
+                  </div>
 
-                          <p>{rate}</p>
-                        </div>
+                  <div className="sm:col-span-4">
+                    <div className="mt-2">
+                      <div className="flex justify-around">
+                        <label
+                          htmlFor="email"
+                          className="block text-sm font-medium leading-6 text-gray-900"
+                        >
+                          Rate
+                        </label>
 
+                        <p>{rate}</p>
+                      </div>
+
+                      <div className="mt-2">
+                        <input
+                          id="rate"
+                          type="range"
+                          min="0.5"
+                          max="2"
+                          value={rate}
+                          step="0.1"
+                          className="block w-full"
+                          onChange={handleChangeRate}
+                        />
+                      </div>
+
+                      <div className="sm:col-span-4">
                         <div className="mt-2">
-                          <input
-                            id="rate"
-                            type="range"
-                            min="0.5"
-                            max="2"
-                            value={rate}
-                            step="0.1"
-                            className="block w-full"
-                            onChange={handleChangeRate}
-                          />
+                          <label
+                            htmlFor="email"
+                            className="block text-sm font-medium leading-6 text-gray-900"
+                          >
+                            Text to speech
+                          </label>
+                          <div className="mt-2">
+                            <div className="mt-2">
+                              <input
+                                type="text"
+                                name="textToSpeech"
+                                id="textToSpeech"
+                                className="block w-full text-center rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
+                                value={textSpeech}
+                                onChange={handleChangeTextSpeech}
+                              />
+                            </div>
+                          </div>
                         </div>
                       </div>
+
+                      <button
+                        className="my-5 bg-black text-white"
+                        onClick={handleSpeak}
+                      >
+                        Test speak
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </form>
           </div>
-        </div> 
-        }
+        </div>
+      )}
     </>
   );
 };
