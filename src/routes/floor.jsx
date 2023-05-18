@@ -16,17 +16,22 @@ const floor = () => {
   const synth = window.speechSynthesis;
 
   useEffect(() => {
-    synth.onvoiceschanged = () => {
+    function getVoices() {
       let voicesName = [];
       const voices = synth.getVoices();
 
       voices.forEach((voice) => {
         voicesName.push(voice.name);
       });
-
       setVoices(voicesName);
-    };
-  });
+    }
+
+    if (synth.onvoiceschanged !== undefined) {
+      synth.onvoiceschanged = getVoices;
+    }
+
+    getVoices();
+  }, []);
 
   const fetchDataQueues = async () => {
     const response = await fetch(
@@ -48,8 +53,6 @@ const floor = () => {
     if (queues.length > 0 && synth.speaking === false) {
       const utterance = new SpeechSynthesisUtterance();
       const voices = synth.getVoices();
-
-      console.log("queues", queues);
 
       const queuesCall = queues.filter(
         (queue) => queue.current_call_queue_event_rcd === "CALL"
