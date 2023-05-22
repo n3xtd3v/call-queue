@@ -12,6 +12,11 @@ const floor = () => {
   const [pitch, setPitch] = useState(1);
 
   const { floorId } = useParams();
+
+  if (!floorId) {
+    useParams();
+  }
+
   const navigate = useNavigate();
   const synth = window.speechSynthesis;
 
@@ -26,11 +31,11 @@ const floor = () => {
       setVoices(voicesName);
     }
 
+    getVoices();
+
     if (synth.onvoiceschanged !== undefined) {
       synth.onvoiceschanged = getVoices;
     }
-
-    getVoices();
   }, []);
 
   const fetchDataQueues = async () => {
@@ -60,7 +65,9 @@ const floor = () => {
 
       let queuesCalltoString = queuesCall.map(
         ({ queue_number, call_display_info }) =>
-          `Number ${queue_number} please contact ${call_display_info}`
+          ` Number ${queue_number
+            .split("")
+            .join(" ")} please contact ${call_display_info} `
       );
 
       const filterVoiceAria = voices.filter(
