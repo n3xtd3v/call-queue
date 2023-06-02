@@ -1,43 +1,4 @@
-import React, { useState, useEffect } from 'react'
-
 const App = () => {
-  // const [patientsData, setPatientsData] = useState(null)
-  // const utterThis = new SpeechSynthesisUtterance()
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const res = await fetch('src/utils/patientData.json')
-  //     const data = await res.json()
-  //     console.log(data)
-  //     setPatientsData(data)
-  //   }
-
-  //   const intervalData = setInterval(fetchData, 10000)
-  //   return () => clearInterval(intervalData)
-  // }, [])
-
-  // useEffect(() => {
-  //   const synth = window.speechSynthesis
-  //   const voices = synth.getVoices()
-
-  //   for (let i = 0; i < patientsData?.length; i++) {
-  //     const patient = patientsData[i]
-  //     if (patient.current_call_queue_rcd === 'CALL') {
-  //       if (patient.nationality === 'th') {
-  //         const voiceTh = voices[3]
-  //         utterThis.text = `invite number ${patient.queue_number}`
-  //         utterThis.voice = voiceTh
-  //         speechSynthesis.speak(utterThis)
-  //       } else if (patient.nationality === 'en') {
-  //         const voiceEn = voices[1]
-  //         utterThis.text = `invite number ${patient.queue_number}`
-  //         utterThis.voice = voiceEn
-  //         speechSynthesis.speak(utterThis)
-  //       }
-  //     }
-  //   }
-  // }, [patientsData])
-
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -51,7 +12,7 @@ const App = () => {
         clipRule="evenodd"
       />
     </svg>
-  )
-}
+  );
+};
 
-export default App
+export default App;

@@ -5,6 +5,7 @@ import "../styles/floor.css";
 const floor = () => {
   const [queues, setQueues] = useState([]);
   const [openOptionSpeak, setOpenOptionSpeak] = useState(false);
+  const [fullscreenMode, setFullscreenMode] = useState(false);
   const [voices, setVoices] = useState([]);
   const [selectVoice, setSelectVoice] = useState("");
   const [textSpeech, setTextSpeech] = useState("");
@@ -39,9 +40,7 @@ const floor = () => {
   }, []);
 
   const fetchDataQueues = async () => {
-    const response = await fetch(
-      `http://10.1.20.36:7071/api/queues/${floorId}`
-    );
+    const response = await fetch(`http://localhost:7071/api/queues/${floorId}`);
 
     const data = await response.json();
 
@@ -59,42 +58,75 @@ const floor = () => {
       const utterance = new SpeechSynthesisUtterance();
       const voices = synth.getVoices();
 
-      const queuesCall = queues.filter(
-        (queue) => queue.current_call_queue_event_rcd === "CALL"
-      );
-
-      let queuesCalltoString = queuesCall.map(
-        ({ queue_number, call_display_info }) =>
-          ` Number ${queue_number
-            .split("")
-            .join(" ")} please contact ${call_display_info} `
-      );
-
       const filterVoiceAria = voices.filter(
         (voice) =>
           voice.voiceURI ===
           "Microsoft Aria Online (Natural) - English (United States)"
       );
 
-      const filterVoiceGuy = voices.filter(
+      const filterPremwadee = voices.filter(
         (voice) =>
           voice.voiceURI ===
-          "Microsoft Guy Online (Natural) - English (United States)"
+          "Microsoft Premwadee Online (Natural) - Thai (Thailand)"
       );
 
-      utterance.text = queuesCalltoString;
+      // const filterVoiceGuy = voices.filter(
+      //   (voice) =>
+      //     voice.voiceURI ===
+      //     "Microsoft Guy Online (Natural) - English (United States)"
+      // );
 
-      utterance.voice = selectVoice
-        ? (utterance.voice = synth.getVoices().filter(function (voice) {
-            return voice.name == selectVoice;
-          })[0])
-        : filterVoiceAria[0];
-      utterance.pitch = pitch;
-      utterance.rate = rate;
-      synth.speak(utterance);
-      utterance.onend = () => {
-        synth.cancel();
-      };
+      const queuesCall = queues.filter(
+        (queue) => queue.current_call_queue_event_rcd === "CALL"
+      );
+
+      for (let i = 0; i < queuesCall.length; i++) {
+        utterance.text =
+          queuesCall[i].lang === "TH"
+            ? ` หมายเลข ${queuesCall[i].queue_number
+                .split("")
+                .join(" ")} โปรดติดต่อ${
+                queuesCall[i].call_display_info.slice(0, 7) === "Cashier"
+                  ? `การเงิน`
+                  : `เภสัช`
+              } ${queuesCall[i].call_display_info.slice(8, 9)}`
+            : ` Number ${queuesCall[i].queue_number
+                .split("")
+                .join(" ")} please contact ${queuesCall[i].call_display_info} `;
+
+        utterance.voice = selectVoice
+          ? (utterance.voice = synth.getVoices().filter(function (voice) {
+              return voice.name == selectVoice;
+            })[0])
+          : queuesCall[i].lang === "TH"
+          ? filterPremwadee[0]
+          : filterVoiceAria[0];
+
+        utterance.pitch = pitch;
+        utterance.rate = rate;
+        synth.speak(utterance);
+      }
+
+      // let queuesCalltoString = queuesCall.map(
+      //   ({ queue_number, call_display_info }) =>
+      //     ` Number ${queue_number
+      //       .split("")
+      //       .join(" ")} please contact ${call_display_info} `
+      // );
+
+      //   utterance.text = queuesCalltoString;
+
+      //   utterance.voice = selectVoice
+      //     ? (utterance.voice = synth.getVoices().filter(function (voice) {
+      //         return voice.name == selectVoice;
+      //       })[0])
+      //     : filterVoiceAria[0];
+      //   utterance.pitch = pitch;
+      //   utterance.rate = rate;
+      //   synth.speak(utterance);
+      //   utterance.onend = () => {
+      //     synth.cancel();
+      //   };
     }
   }, [queues]);
 
@@ -254,6 +286,27 @@ const floor = () => {
     navigate("/");
   };
 
+  const handleFullscreen = (e) => {
+    if (fullscreenMode) {
+      document.exitFullscreen();
+      setFullscreenMode(false);
+    } else {
+      document.documentElement.requestFullscreen();
+      setFullscreenMode(!fullscreenMode);
+    }
+  };
+
+  let timer;
+  document.addEventListener("mousemove", () => {
+    document.body.style.cursor = "default";
+    clearTimeout(timer);
+    timer = setTimeout(mouseStopped, 2000);
+  });
+
+  function mouseStopped() {
+    document.body.style.cursor = "none";
+  }
+
   return (
     <>
       <div className="w-5 h-5 fixed top-0 right-0 dropdown">
@@ -263,7 +316,7 @@ const floor = () => {
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="currentColor"
-              className="w-6 h-6 cursor-pointer hover:opacity-50"
+              className="w-6 h-6 cursor-pointer opacity-70 hover:opacity-100"
               onClick={() => setOpenOptionSpeak(!openOptionSpeak)}
             >
               <path d="M18.75 12.75h1.5a.75.75 0 000-1.5h-1.5a.75.75 0 000 1.5zM12 6a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5A.75.75 0 0112 6zM12 18a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5A.75.75 0 0112 18zM3.75 6.75h1.5a.75.75 0 100-1.5h-1.5a.75.75 0 000 1.5zM5.25 18.75h-1.5a.75.75 0 010-1.5h1.5a.75.75 0 010 1.5zM3 12a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5A.75.75 0 013 12zM9 3.75a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5zM12.75 12a2.25 2.25 0 114.5 0 2.25 2.25 0 01-4.5 0zM9 15.75a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5z" />
@@ -275,7 +328,7 @@ const floor = () => {
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="currentColor"
-              className="w-6 h-6 cursor-pointer hover:opacity-50"
+              className="w-6 h-6 cursor-pointer opacity-70 hover:opacity-100"
               onClick={handleClickIconLocation}
             >
               <path
@@ -283,6 +336,18 @@ const floor = () => {
                 d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z"
                 clipRule="evenodd"
               />
+            </svg>
+          </div>
+
+          <div className="mx-1">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              className="w-6 h-6 p-1 cursor-pointer opacity-70 hover:opacity-100"
+              viewBox="0 0 16 16"
+              onClick={() => handleFullscreen()}
+            >
+              <path d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z" />
             </svg>
           </div>
         </div>
