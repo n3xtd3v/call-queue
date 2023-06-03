@@ -7,10 +7,11 @@ const floor = () => {
   const [openOptionSpeak, setOpenOptionSpeak] = useState(false);
   const [fullscreenMode, setFullscreenMode] = useState(false);
   const [voices, setVoices] = useState([]);
-  const [selectVoice, setSelectVoice] = useState("");
+  const [selectVoice, setSelectVoice] = useState(null);
   const [textSpeech, setTextSpeech] = useState("");
-  const [rate, setRate] = useState(0.6);
-  const [pitch, setPitch] = useState(1);
+  const [rate, setRate] = useState(null);
+  const [pitch, setPitch] = useState(null);
+  const [openInfo, setOpenInfo] = useState(false);
 
   const { floorId } = useParams();
 
@@ -40,7 +41,9 @@ const floor = () => {
   }, []);
 
   const fetchDataQueues = async () => {
-    const response = await fetch(`http://localhost:7071/api/queues/${floorId}`);
+    const response = await fetch(
+      `http://10.1.20.36:7071/api/queues/${floorId}`
+    );
 
     const data = await response.json();
 
@@ -282,11 +285,18 @@ const floor = () => {
     synth.speak(speakText);
   };
 
+  const handleResetSettingVoice = (e) => {
+    e.preventDefault();
+    setTextSpeech("");
+    setPitch(null);
+    setRate(null);
+  };
+
   const handleClickIconLocation = () => {
     navigate("/");
   };
 
-  const handleFullscreen = (e) => {
+  const handleFullscreen = () => {
     if (fullscreenMode) {
       document.exitFullscreen();
       setFullscreenMode(false);
@@ -309,14 +319,14 @@ const floor = () => {
 
   return (
     <>
-      <div className="w-5 h-5 fixed top-0 right-0 dropdown">
+      <div className="w-7 h-7 fixed top-0 right-0 dropdown">
         <div className="dropdown-menu">
           <div className="mx-1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="currentColor"
-              className="w-6 h-6 cursor-pointer opacity-70 hover:opacity-100"
+              className="w-6 h-6 cursor-pointer opacity-80 hover:opacity-100"
               onClick={() => setOpenOptionSpeak(!openOptionSpeak)}
             >
               <path d="M18.75 12.75h1.5a.75.75 0 000-1.5h-1.5a.75.75 0 000 1.5zM12 6a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5A.75.75 0 0112 6zM12 18a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5A.75.75 0 0112 18zM3.75 6.75h1.5a.75.75 0 100-1.5h-1.5a.75.75 0 000 1.5zM5.25 18.75h-1.5a.75.75 0 010-1.5h1.5a.75.75 0 010 1.5zM3 12a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5A.75.75 0 013 12zM9 3.75a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5zM12.75 12a2.25 2.25 0 114.5 0 2.25 2.25 0 01-4.5 0zM9 15.75a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5z" />
@@ -328,7 +338,7 @@ const floor = () => {
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="currentColor"
-              className="w-6 h-6 cursor-pointer opacity-70 hover:opacity-100"
+              className="w-6 h-6 cursor-pointer opacity-80 hover:opacity-100"
               onClick={handleClickIconLocation}
             >
               <path
@@ -343,11 +353,25 @@ const floor = () => {
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="currentColor"
-              className="w-6 h-6 p-1 cursor-pointer opacity-70 hover:opacity-100"
+              className="w-6 h-6 cursor-pointer opacity-80 hover:opacity-100"
               viewBox="0 0 16 16"
               onClick={() => handleFullscreen()}
             >
               <path d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z" />
+            </svg>
+          </div>
+
+          <div className="mx-1">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="currentColor"
+              className="w-6 h-6 cursor-pointer bi bi-info-circle-fill opacity-80 hover:opacity-100"
+              viewBox="0 0 16 16"
+              onClick={() => setOpenInfo(!openInfo)}
+            >
+              <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />{" "}
             </svg>
           </div>
         </div>
@@ -529,6 +553,29 @@ const floor = () => {
                         htmlFor="email"
                         className="block text-sm font-medium leading-6 text-gray-900"
                       >
+                        Text to speech
+                      </label>
+                      <div className="mt-2">
+                        <div className="mt-2">
+                          <input
+                            type="text"
+                            name="textToSpeech"
+                            id="textToSpeech"
+                            className="block w-full text-center rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
+                            value={textSpeech}
+                            onChange={handleChangeTextSpeech}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="sm:col-span-4">
+                    <div className="mt-2">
+                      <label
+                        htmlFor="email"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
                         Voice
                       </label>
                       <div className="mt-2">
@@ -559,16 +606,16 @@ const floor = () => {
                           Pitch
                         </label>
 
-                        <p>{pitch}</p>
+                        <p>{pitch !== null ? pitch : 1}</p>
                       </div>
 
                       <div className="mt-2">
                         <input
                           id="pitch"
                           type="range"
-                          min="0.5"
+                          min="0.1"
                           max="2"
-                          value={pitch}
+                          value={pitch !== null ? pitch : 1}
                           step="0.1"
                           className="block w-full"
                           onChange={handleChangePitch}
@@ -587,56 +634,214 @@ const floor = () => {
                           Rate
                         </label>
 
-                        <p>{rate}</p>
+                        <p>{rate !== null ? rate : 0.7}</p>
                       </div>
 
                       <div className="mt-2">
                         <input
                           id="rate"
                           type="range"
-                          min="0.5"
-                          max="2"
-                          value={rate}
+                          min="0.1"
+                          max="10"
+                          value={rate !== null ? rate : 0.7}
                           step="0.1"
                           className="block w-full"
                           onChange={handleChangeRate}
                         />
                       </div>
 
-                      <div className="sm:col-span-4">
-                        <div className="mt-2">
-                          <label
-                            htmlFor="email"
-                            className="block text-sm font-medium leading-6 text-gray-900"
-                          >
-                            Text to speech
-                          </label>
-                          <div className="mt-2">
-                            <div className="mt-2">
-                              <input
-                                type="text"
-                                name="textToSpeech"
-                                id="textToSpeech"
-                                className="block w-full text-center rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
-                                value={textSpeech}
-                                onChange={handleChangeTextSpeech}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                      <div className="flex justify-evenly">
+                        <button
+                          className="flex justify-center items-center my-5 bg-black text-white"
+                          onClick={handleResetSettingVoice}
+                        >
+                          <p>Reset</p>
+                          <span className="ml-2">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="30"
+                              height="30"
+                              fill="currentColor"
+                              className="bi bi-arrow-counterclockwise"
+                              viewBox="0 0 16 16"
+                              id="IconChangeColor"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2v1z"
+                                id="mainIconPathAttribute"
+                                stroke="#ffffff"
+                                fill="#ffffff"
+                                strokeWidth="0.2"
+                              ></path>
+                              <path
+                                d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466z"
+                                id="mainIconPathAttribute"
+                                stroke="#ffffff"
+                                fill="#ffffff"
+                              ></path>
+                            </svg>
+                          </span>
+                        </button>
 
-                      <button
-                        className="my-5 bg-black text-white"
-                        onClick={handleSpeak}
-                      >
-                        Test speak
-                      </button>
+                        <button
+                          className="flex justify-center items-center my-5 bg-black text-white"
+                          onClick={handleSpeak}
+                        >
+                          <p>Speak</p>
+                          <span className="ml-2">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="30"
+                              height="30"
+                              fill="currentColor"
+                              className="bi bi-volume-up"
+                              viewBox="0 0 16 16"
+                              id="IconChangeColor"
+                            >
+                              <path
+                                d="M11.536 14.01A8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707A7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z"
+                                id="mainIconPathAttribute"
+                                strokeWidth="2"
+                              ></path>
+                              <path
+                                d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.483 5.483 0 0 1 11.025 8a5.483 5.483 0 0 1-1.61 3.89l.706.706z"
+                                id="mainIconPathAttribute"
+                              ></path>
+                              <path
+                                d="M10.025 8a4.486 4.486 0 0 1-1.318 3.182L8 10.475A3.489 3.489 0 0 0 9.025 8c0-.966-.392-1.841-1.025-2.475l.707-.707A4.486 4.486 0 0 1 10.025 8zM7 4a.5.5 0 0 0-.812-.39L3.825 5.5H1.5A.5.5 0 0 0 1 6v4a.5.5 0 0 0 .5.5h2.325l2.363 1.89A.5.5 0 0 0 7 12V4zM4.312 6.39 6 5.04v5.92L4.312 9.61A.5.5 0 0 0 4 9.5H2v-3h2a.5.5 0 0 0 .312-.11z"
+                                id="mainIconPathAttribute"
+                              ></path>
+                            </svg>
+                          </span>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {openInfo && (
+        <div className="modal">
+          <div className="modal-content">
+            <div className="space-y-5">
+              <div className="flex justify-between">
+                <h2 className="text-xl font-bold leading-7">วิธีการใช้งาน</h2>
+
+                <span className="close" onClick={() => setOpenInfo(!openInfo)}>
+                  &times;
+                </span>
+              </div>
+
+              <div>
+                <h2 className="text-lg font-semibold leading-7">
+                  เริ่มต้นใช้งาน
+                </h2>
+                <p>
+                  - เปิดเว็บบราวเซอร์โดยใช้ Microsoft edge{" "}
+                  <span>
+                    <img
+                      src="/images/Microsoft_Edge_logo_(2019).png"
+                      alt="browser"
+                      width="20px"
+                      height="20px"
+                      className="inline-block"
+                    />
+                  </span>{" "}
+                  Queue Monitoring ที่หน้า Desktop หรือ พิมพ์ URL
+                  http://10.1.20.36:7070
+                </p>
+                <p>- เลือกชั้นที่จะแสดง Queue</p>
+
+                <br />
+
+                <h2 className="text-lg font-semibold leading-7">
+                  การตั้งค่าอื่นๆ
+                </h2>
+                <p>
+                  - เลื่อนเมาส์ไปชี้ที่มุมบนขวาสุด{" "}
+                  <span>
+                    <img
+                      src="/images/Screenshot 2023-06-03 141045.jpg"
+                      alt="browser"
+                      width="100px"
+                      height="50px"
+                      className="inline-block"
+                    />
+                  </span>{" "}
+                  จะมีเมนูขึ้นมา{" "}
+                  <span>
+                    <img
+                      src="/images/Screenshot 2023-06-03 141247.jpg"
+                      alt="browser"
+                      width="100px"
+                      height="50px"
+                      className="inline-block"
+                    />
+                  </span>{" "}
+                </p>
+
+                <p>
+                  -{" "}
+                  <span>
+                    <img
+                      src="/images/info.jpg"
+                      alt="info"
+                      width="30px"
+                      height="30px"
+                      className="inline-block"
+                    />
+                  </span>{" "}
+                  ข้อมูลวิธีการใช้งาน
+                </p>
+
+                <p>
+                  -{" "}
+                  <span>
+                    <img
+                      src="/images/fullscreen.jpg"
+                      alt="fullscreen"
+                      width="30px"
+                      height="30px"
+                      className="inline-block"
+                    />
+                  </span>{" "}
+                  ขยายหน้าจอ Fullscreen หรือ กด F11
+                </p>
+
+                <p>
+                  -{" "}
+                  <span>
+                    <img
+                      src="/images/location.jpg"
+                      alt="location"
+                      width="30px"
+                      height="30px"
+                      className="inline-block"
+                    />
+                  </span>{" "}
+                  กลับไปหน้าเลือกชั้น
+                </p>
+
+                <p>
+                  -{" "}
+                  <span>
+                    <img
+                      src="/images/setting.jpg"
+                      alt="setting"
+                      width="30px"
+                      height="30px"
+                      className="inline-block"
+                    />
+                  </span>{" "}
+                  ตั้งค่าเสียง
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       )}
