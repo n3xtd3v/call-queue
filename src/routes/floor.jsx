@@ -9,8 +9,8 @@ const floor = () => {
   const [voices, setVoices] = useState([]);
   const [selectVoice, setSelectVoice] = useState(null);
   const [textSpeech, setTextSpeech] = useState("");
-  const [rate, setRate] = useState(null);
-  const [pitch, setPitch] = useState(null);
+  const [rate, setRate] = useState(0.8);
+  const [pitch, setPitch] = useState(1);
   const [openInfo, setOpenInfo] = useState(false);
 
   const { floorId } = useParams();
@@ -89,13 +89,27 @@ const floor = () => {
             ? ` หมายเลข ${queuesCall[i].queue_number
                 .split("")
                 .join(" ")} โปรดติดต่อ${
-                queuesCall[i].call_display_info.slice(0, 7) === "Cashier"
+                queuesCall[i]?.call_display_info?.slice(0, 7) === "Cashier"
                   ? `การเงิน`
-                  : `เภสัช`
-              } ${queuesCall[i].call_display_info.slice(8, 9)}`
+                  : queuesCall[i]?.call_display_info?.slice(0, 8) === "Pharmacy"
+                  ? `เภสัช`
+                  : ""
+              } ${
+                queuesCall[i].call_display_info === null
+                  ? ""
+                  : queuesCall[i]?.call_display_info?.slice(0, 7) === "Cashier"
+                  ? `${queuesCall[i]?.call_display_info?.slice(8, 9)}`
+                  : queuesCall[i]?.call_display_info?.slice(0, 8) === "Pharmacy"
+                  ? `${queuesCall[i]?.call_display_info?.slice(9, 10)}`
+                  : ""
+              }`
             : ` Number ${queuesCall[i].queue_number
                 .split("")
-                .join(" ")} please contact ${queuesCall[i].call_display_info} `;
+                .join(" ")} please contact ${
+                queuesCall[i].call_display_info === null
+                  ? ""
+                  : queuesCall[i].call_display_info
+              } `;
 
         utterance.voice = selectVoice
           ? (utterance.voice = synth.getVoices().filter(function (voice) {
@@ -606,7 +620,7 @@ const floor = () => {
                           Pitch
                         </label>
 
-                        <p>{pitch !== null ? pitch : 1}</p>
+                        <p>{pitch}</p>
                       </div>
 
                       <div className="mt-2">
@@ -615,7 +629,7 @@ const floor = () => {
                           type="range"
                           min="0.1"
                           max="2"
-                          value={pitch !== null ? pitch : 1}
+                          value={pitch}
                           step="0.1"
                           className="block w-full"
                           onChange={handleChangePitch}
@@ -634,7 +648,7 @@ const floor = () => {
                           Rate
                         </label>
 
-                        <p>{rate !== null ? rate : 0.7}</p>
+                        <p>{rate}</p>
                       </div>
 
                       <div className="mt-2">
@@ -643,7 +657,7 @@ const floor = () => {
                           type="range"
                           min="0.1"
                           max="10"
-                          value={rate !== null ? rate : 0.7}
+                          value={rate}
                           step="0.1"
                           className="block w-full"
                           onChange={handleChangeRate}
