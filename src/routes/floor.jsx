@@ -89,10 +89,10 @@ const floor = () => {
             ? ` หมายเลข ${queuesCall[i].queue_number
                 .split("")
                 .join(" ")} โปรดติดต่อ${
-                queuesCall[i].call_display_info?.slice(0, 7) === "Cashier"
+                queuesCall[i].call_display_info.slice(0, 7) === "Cashier"
                   ? `การเงิน`
                   : `เภสัช`
-              } ${queuesCall[i].call_display_info?.slice(8, 9)}`
+              } ${queuesCall[i].call_display_info.slice(8, 9)}`
             : ` Number ${queuesCall[i].queue_number
                 .split("")
                 .join(" ")} please contact ${queuesCall[i].call_display_info} `;
