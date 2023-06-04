@@ -7,7 +7,7 @@ const floor = () => {
   const [openOptionSpeak, setOpenOptionSpeak] = useState(false);
   const [fullscreenMode, setFullscreenMode] = useState(false);
   const [voices, setVoices] = useState([]);
-  const [selectVoice, setSelectVoice] = useState(null);
+  const [selectVoice, setSelectVoice] = useState("");
   const [textSpeech, setTextSpeech] = useState("");
   const [rate, setRate] = useState(0.8);
   const [pitch, setPitch] = useState(1);
