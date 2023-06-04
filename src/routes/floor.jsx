@@ -302,8 +302,9 @@ const floor = () => {
   const handleResetSettingVoice = (e) => {
     e.preventDefault();
     setTextSpeech("");
-    setPitch(null);
-    setRate(null);
+    setPitch(1);
+    setSelectVoice("");
+    setRate(0.8);
   };
 
   const handleClickIconLocation = () => {

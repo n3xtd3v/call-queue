@@ -1,47 +1,47 @@
-import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { postDataAPI } from '../utils/fetchData'
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { postDataAPI } from "../utils/fetchData";
 
 export default function Root() {
-  const [isOpen, setOpen] = useState(false)
-  const [floorsCashier, setFloorsCashier] = useState([])
-  const [floorsPharmacy, setFloorsPharmacy] = useState([])
-  const [floorSelect, setFloorSelect] = useState([])
+  const [isOpen, setOpen] = useState(false);
+  const [floorsCashier, setFloorsCashier] = useState([]);
+  const [floorsPharmacy, setFloorsPharmacy] = useState([]);
+  const [floorSelect, setFloorSelect] = useState([]);
 
   useEffect(() => {
     const dataFetch = async () => {
       const dataCashier = await (
-        await fetch('http://10.1.20.36:7071/api/floors/cashier')
-      ).json()
+        await fetch("http://10.1.20.36:7071/api/floors/cashier")
+      ).json();
 
       const dataPharmacy = await (
-        await fetch('http://10.1.20.36:7071/api/floors/pharmacy')
-      ).json()
+        await fetch("http://10.1.20.36:7071/api/floors/pharmacy")
+      ).json();
 
-      setFloorsCashier(dataCashier.floors)
-      setFloorsPharmacy(dataPharmacy.floors)
-    }
+      setFloorsCashier(dataCashier.floors);
+      setFloorsPharmacy(dataPharmacy.floors);
+    };
 
-    dataFetch()
-  }, [])
+    dataFetch();
+  }, []);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleChangeInputFloor = async (e) => {
-    const data = e.target.value
+    const data = e.target.value;
 
-    const res = await postDataAPI('floorId', { name: data })
+    const res = await postDataAPI("floorId", { name: data });
 
-    const floorId = res.data.floorId.call_queue_id
+    const floorId = res.data.floorId.call_queue_id;
 
-    setFloorSelect((floorSelect) => [...floorSelect, floorId])
-  }
+    setFloorSelect((floorSelect) => [...floorSelect, floorId]);
+  };
 
   const handleSubmitFloor = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    navigate(`/floor/${floorSelect[0]}-${floorSelect[1]}`)
-  }
+    navigate(`/floor/${floorSelect[0]}-${floorSelect[1]}`);
+  };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -88,7 +88,7 @@ export default function Root() {
                               id="floor"
                               className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                               name="floor"
-                              value={floorSelect ? floorSelect.name_e : ''}
+                              value={floorSelect ? floorSelect.name_e : ""}
                               onChange={handleChangeInputFloor}
                             >
                               <option>Select cashier</option>
@@ -107,7 +107,7 @@ export default function Root() {
                               id="floor"
                               className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                               name="floor"
-                              value={floorSelect ? floorSelect.name_e : ''}
+                              value={floorSelect ? floorSelect.name_e : ""}
                               onChange={handleChangeInputFloor}
                             >
                               <option>Select pharmacy</option>
@@ -124,7 +124,6 @@ export default function Root() {
                           <button
                             type="submit"
                             className="inline-flex w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
-                            onClick={handleSubmitFloor}
                           >
                             Select
                           </button>
@@ -145,8 +144,8 @@ export default function Root() {
           </div>
         </div>
       ) : (
-        ''
+        ""
       )}
     </div>
-  )
+  );
 }
