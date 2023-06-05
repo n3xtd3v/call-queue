@@ -94,7 +94,7 @@ const floor = () => {
                   : queuesCall[i]?.call_display_info?.slice(0, 8) === "Pharmacy"
                   ? `เภสัช`
                   : ""
-              } ${
+              }${
                 queuesCall[i].call_display_info === null
                   ? ""
                   : queuesCall[i]?.call_display_info?.slice(0, 7) === "Cashier"
