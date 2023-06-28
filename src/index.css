@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 :root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
@@ -41,22 +40,9 @@ h1 {
 }
 
 button {
-  border-radius: 8px;
   border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
 }
 
 @media (prefers-color-scheme: light) {
@@ -76,10 +62,25 @@ button:focus-visible {
   background-color: rgb(49, 92, 139);
 }
 
-.secondary-color {
-  background-color: rgb(255, 230, 153);
-}
-
 .green-color {
   background-color: rgb(146, 208, 80);
+}
+
+.secondary_color {
+  background-color: rgb(192, 100, 40);
+}
+
+.main_color_text {
+  color: rgb(49, 92, 139);
+}
+
+.button_cancel:hover {
+  background-color: rgb(49, 92, 139);
+  color: white;
+  border-color: rgb(49, 92, 139);
+}
+
+.button_submit:hover {
+  background-color: rgb(192, 100, 40);
+  color: white;
 }

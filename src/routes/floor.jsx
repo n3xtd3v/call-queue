@@ -332,6 +332,11 @@ const floor = () => {
     document.body.style.cursor = "none";
   }
 
+  // const bgTable = {
+  //   color: "white",
+  //   backgroundColor: "white",
+  // };
+
   return (
     <>
       <div className="w-7 h-7 fixed top-0 right-0 dropdown">
@@ -392,151 +397,337 @@ const floor = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-10 min-h-screen justify-center items-center text-white text-center px-10 text-5xl">
+      <div className="grid grid-cols-2 gap-10 min-h-screen justify-center items-center text-white text-center px-10 text-5xl font-bold">
         <div className="flex flex-col justify-items-center items-center">
-          <div className="main-color w-full my-3 p-5 border border-black ">
-            Cashier / การเงิน
-          </div>
+          <div className="main-color w-full my-3 p-5 title_cashier rounded-md"></div>
 
-          <div className="flex flex-col justify-center items-center main-color w-full border p-5 border-black">
-            <table className="border-collapse border border-white m-4 w-full secondary-color text-black">
-              <thead>
-                <tr className="text-3xl">
-                  <th className="border-4 border-white p-5">Service Number</th>
-                  <th className="border-4 border-white p-5">
-                    Counter / ช่องชำระเงิน
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="font-black">
-                <tr>
-                  <td className="border-4 border-white p-5">
-                    {cashierCall_1?.[0]
-                      ? cashierCall_1?.[0].queue_number
-                      : cashierCallServing_1?.[0]
-                      ? cashierCallServing_1?.[0].queue_number
-                      : ""}
+          <div className="flex flex-col justify-center items-center main-color w-full p-5 rounded-md">
+            <table className="m-4 w-full">
+              <tbody>
+                <tr className="text-4xl">
+                  <td
+                    style={{ background: "rgb(192, 100, 40)", color: "white" }}
+                    className="w-[70%]"
+                  >
+                    <p className="title_service"></p>
                   </td>
-                  <td className="border-4 border-white p-5">1</td>
+                  <td
+                    style={{ background: "rgb(192, 100, 40)", color: "white" }}
+                    className="w-[30%]"
+                  >
+                    <p className="title_counter"></p>
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    className={`${
+                      cashierCall_1?.[0]?.current_call_queue_event_rcd ===
+                      "CALL"
+                        ? "blinking-bg"
+                        : cashierCallServing_1?.[0]
+                            ?.current_call_queue_event_rcd === "SERVING"
+                        ? `secondary_color text-white`
+                        : ""
+                    }`}
+                  >
+                    <p
+                      className={`${
+                        cashierCall_1?.[0]?.current_call_queue_event_rcd ===
+                          "CALL" && "blinking-text"
+                      }`}
+                    >
+                      {cashierCall_1?.[0]
+                        ? cashierCall_1?.[0].queue_number
+                        : cashierCallServing_1?.[0]
+                        ? cashierCallServing_1?.[0].queue_number
+                        : ""}
+                    </p>
+                  </td>
+                  <td
+                    style={{ background: "rgb(192, 100, 40)", color: "white" }}
+                  >
+                    <p>1</p>
+                  </td>
                 </tr>
 
                 <tr>
-                  <td className="border-4 border-white p-5">
-                    {cashierCall_2?.[0]
-                      ? cashierCall_2?.[0].queue_number
-                      : cashierCallServing_2?.[0]
-                      ? cashierCallServing_2?.[0].queue_number
-                      : ""}
+                  <td
+                    className={`${
+                      cashierCall_2?.[0]?.current_call_queue_event_rcd ===
+                      "CALL"
+                        ? "blinking-bg"
+                        : cashierCallServing_2?.[0]
+                            ?.current_call_queue_event_rcd === "SERVING"
+                        ? `secondary_color text-white`
+                        : ""
+                    }`}
+                  >
+                    <p
+                      className={`${
+                        cashierCall_2?.[0]?.current_call_queue_event_rcd ===
+                          "CALL" && `blinking-text`
+                      }`}
+                    >
+                      {cashierCall_2?.[0]
+                        ? cashierCall_2?.[0].queue_number
+                        : cashierCallServing_2?.[0]
+                        ? cashierCallServing_2?.[0].queue_number
+                        : ""}
+                    </p>
                   </td>
-                  <td className="border-4 border-white p-5">2</td>
+                  <td
+                    style={{ background: "rgb(192, 100, 40)", color: "white" }}
+                  >
+                    <p>2</p>
+                  </td>
                 </tr>
                 <tr>
-                  <td className="border-4 border-white p-5">
-                    {cashierCall_3?.[0]
-                      ? cashierCall_3?.[0].queue_number
-                      : cashierCallServing_3?.[0]
-                      ? cashierCallServing_3?.[0].queue_number
-                      : ""}
+                  <td
+                    className={`${
+                      cashierCall_3?.[0]?.current_call_queue_event_rcd ===
+                      "CALL"
+                        ? "blinking-bg"
+                        : cashierCallServing_3?.[0]
+                            ?.current_call_queue_event_rcd === "SERVING"
+                        ? `secondary_color text-white`
+                        : ""
+                    }`}
+                  >
+                    <p
+                      className={`${
+                        cashierCall_3?.[0]?.current_call_queue_event_rcd ===
+                          "CALL" && `blinking-text`
+                      }`}
+                    >
+                      {cashierCall_3?.[0]
+                        ? cashierCall_3?.[0].queue_number
+                        : cashierCallServing_3?.[0]
+                        ? cashierCallServing_3?.[0].queue_number
+                        : ""}
+                    </p>
                   </td>
-                  <td className="border-4 border-white p-5">3</td>
+                  <td
+                    style={{ background: "rgb(192, 100, 40)", color: "white" }}
+                  >
+                    <p>3</p>
+                  </td>
                 </tr>
                 <tr>
-                  <td className="border-4 border-white p-5">
-                    {cashierCall_4?.[0]
-                      ? cashierCall_4?.[0].queue_number
-                      : cashierCallServing_4?.[0]
-                      ? cashierCallServing_4?.[0].queue_number
-                      : ""}
+                  <td
+                    className={`${
+                      cashierCall_4?.[0]?.current_call_queue_event_rcd ===
+                      "CALL"
+                        ? "blinking-bg"
+                        : cashierCallServing_4?.[0]
+                            ?.current_call_queue_event_rcd === "SERVING"
+                        ? `secondary_color text-white`
+                        : ""
+                    }`}
+                  >
+                    <p
+                      className={`${
+                        cashierCall_4?.[0]?.current_call_queue_event_rcd ===
+                          "CALL" && `blinking-text`
+                      }`}
+                    >
+                      {cashierCall_4?.[0]
+                        ? cashierCall_4?.[0].queue_number
+                        : cashierCallServing_4?.[0]
+                        ? cashierCallServing_4?.[0].queue_number
+                        : ""}
+                    </p>
                   </td>
-                  <td className="border-4 border-white p-5">4</td>
+                  <td
+                    style={{ background: "rgb(192, 100, 40)", color: "white" }}
+                  >
+                    <p>4</p>
+                  </td>
                 </tr>
               </tbody>
             </table>
 
-            <div className="main-color w-full my-3 p-5 border border-black whitespace-nowrap truncate">
+            <div className="bg-white w-full my-3 p-5 whitespace-nowrap truncate rounded-md h-[88px] relative">
+              <p className="absolute top-2/4 left-0 -translate-y-2/4 z-50 text-white p-5 main-color swap_waiting_cashier w-[550px]"></p>
               <div className="scrolling">
-                WAITING / รอชำระเงิน {combineCashiersNumber.join(", ")}
+                <p style={{ color: "rgb(192, 100, 40)" }}>
+                  {combineCashiersNumber.join(", ")}
+                </p>
               </div>
             </div>
 
-            <div className="main-color w-full my-3 p-5 border border-black whitespace-nowrap truncate">
-              <div className="scrolling text-yellow-300">
-                MISSED CALL / กรุณาติดต่อการเงิน{" "}
-                {cashiersMissedCallNumber.join(", ")}
+            <div className="bg-white w-full my-3 p-5 whitespace-nowrap truncate rounded-md h-[88px] relative">
+              <p className="absolute top-2/4 left-0 -translate-y-2/4 z-50 text-white p-5 main-color swap_misscall_cashier w-[550px]"></p>
+              <div className="scrolling ">
+                <p style={{ color: "rgb(192, 100, 40)" }}>
+                  {cashiersMissedCallNumber.join(", ")}
+                </p>
               </div>
             </div>
           </div>
         </div>
 
         <div className="flex flex-col justify-items-center items-center">
-          <div className="main-color w-full my-3 p-5 border border-black">
-            Pharmacy / เภสัชกรรม
-          </div>
+          <div className="main-color w-full my-3 p-5 title_pharmacy rounded-md"></div>
 
-          <div className="flex flex-col justify-center items-center main-color w-full border p-5 border-black">
-            <table className="border-collapse border border-white m-4 w-full green-color text-black">
-              <thead>
-                <tr className="text-3xl">
-                  <th className="border-4 border-white p-5">Service Number</th>
-                  <th className="border-4 border-white p-5">
-                    Counter / ช่องรับยา
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="font-black">
-                <tr>
-                  <td className="border-4 border-white p-5">
-                    {pharmacyCall_1?.[0]
-                      ? pharmacyCall_1?.[0].queue_number
-                      : pharmacyCallServing_1?.[0]
-                      ? pharmacyCallServing_1?.[0].queue_number
-                      : ""}
+          <div className="flex flex-col justify-center items-center main-color w-full p-5 rounded-md">
+            <table className="m-4 w-full">
+              <tbody>
+                <tr className="text-4xl">
+                  <td
+                    style={{ background: "rgb(192, 100, 40)", color: "white" }}
+                    className="w-[70%]"
+                  >
+                    <p className="title_service"></p>
                   </td>
-                  <td className="border-4 border-white p-5">1</td>
+                  <td
+                    style={{ background: "rgb(192, 100, 40)", color: "white" }}
+                    className="w-[30%]"
+                  >
+                    <p className="title_counter"></p>
+                  </td>
                 </tr>
                 <tr>
-                  <td className="border-4 border-white p-5">
-                    {pharmacyCall_2?.[0]
-                      ? pharmacyCall_2?.[0].queue_number
-                      : pharmacyCallServing_2?.[0]
-                      ? pharmacyCallServing_2?.[0].queue_number
-                      : ""}
+                  <td
+                    className={`${
+                      pharmacyCall_1?.[0]?.current_call_queue_event_rcd ===
+                      "CALL"
+                        ? "blinking-bg"
+                        : pharmacyCallServing_1?.[0]
+                            ?.current_call_queue_event_rcd === "SERVING"
+                        ? `secondary_color text-white`
+                        : ""
+                    }`}
+                  >
+                    <p
+                      className={`${
+                        pharmacyCall_1?.[0]?.current_call_queue_event_rcd ===
+                          "CALL" && `blinking-text`
+                      }`}
+                    >
+                      {pharmacyCall_1?.[0]
+                        ? pharmacyCall_1?.[0].queue_number
+                        : pharmacyCallServing_1?.[0]
+                        ? pharmacyCallServing_1?.[0].queue_number
+                        : ""}
+                    </p>
                   </td>
-                  <td className="border-4 border-white p-5">2</td>
+                  <td
+                    style={{ background: "rgb(192, 100, 40)", color: "white" }}
+                  >
+                    <p>1</p>
+                  </td>
                 </tr>
                 <tr>
-                  <td className="border-4 border-white p-5">
-                    {pharmacyCall_3?.[0]
-                      ? pharmacyCall_3?.[0].queue_number
-                      : pharmacyCallServing_3?.[0]
-                      ? pharmacyCallServing_3?.[0].queue_number
-                      : ""}
+                  <td
+                    className={`${
+                      pharmacyCall_2?.[0]?.current_call_queue_event_rcd ===
+                      "CALL"
+                        ? "blinking-bg"
+                        : pharmacyCallServing_2?.[0]
+                            ?.current_call_queue_event_rcd === "SERVING"
+                        ? `secondary_color text-white`
+                        : ""
+                    }`}
+                  >
+                    <p
+                      className={`${
+                        pharmacyCall_2?.[0]?.current_call_queue_event_rcd ===
+                          "CALL" && `blinking-text`
+                      }`}
+                    >
+                      {pharmacyCall_2?.[0]
+                        ? pharmacyCall_2?.[0].queue_number
+                        : pharmacyCallServing_2?.[0]
+                        ? pharmacyCallServing_2?.[0].queue_number
+                        : ""}
+                    </p>
                   </td>
-                  <td className="border-4 border-white p-5">3</td>
+                  <td
+                    style={{ background: "rgb(192, 100, 40)", color: "white" }}
+                  >
+                    <p>2</p>
+                  </td>
                 </tr>
                 <tr>
-                  <td className="border-4 border-white p-5">
-                    {pharmacyCall_4?.[0]
-                      ? pharmacyCall_4?.[0].queue_number
-                      : pharmacyCallServing_4?.[0]
-                      ? pharmacyCallServing_4?.[0].queue_number
-                      : ""}
+                  <td
+                    className={`${
+                      pharmacyCall_3?.[0]?.current_call_queue_event_rcd ===
+                      "CALL"
+                        ? "blinking-bg"
+                        : pharmacyCallServing_3?.[0]
+                            ?.current_call_queue_event_rcd === "SERVING"
+                        ? `secondary_color text-white`
+                        : ""
+                    }`}
+                  >
+                    <p
+                      className={`${
+                        pharmacyCall_3?.[0]?.current_call_queue_event_rcd ===
+                          "CALL" && `blinking-text`
+                      }`}
+                    >
+                      {pharmacyCall_3?.[0]
+                        ? pharmacyCall_3?.[0].queue_number
+                        : pharmacyCallServing_3?.[0]
+                        ? pharmacyCallServing_3?.[0].queue_number
+                        : ""}
+                    </p>
                   </td>
-                  <td className="border-4 border-white p-5">4</td>
+                  <td
+                    style={{ background: "rgb(192, 100, 40)", color: "white" }}
+                  >
+                    <p>3</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    className={`${
+                      pharmacyCall_4?.[0]?.current_call_queue_event_rcd ===
+                      "CALL"
+                        ? "blinking-bg"
+                        : pharmacyCallServing_4?.[0]
+                            ?.current_call_queue_event_rcd === "SERVING"
+                        ? `secondary_color text-white`
+                        : ""
+                    }`}
+                  >
+                    <p
+                      className={`${
+                        pharmacyCall_4?.[0]?.current_call_queue_event_rcd ===
+                          "CALL" && `blinking-text`
+                      }`}
+                    >
+                      {pharmacyCall_4?.[0]
+                        ? pharmacyCall_4?.[0].queue_number
+                        : pharmacyCallServing_4?.[0]
+                        ? pharmacyCallServing_4?.[0].queue_number
+                        : ""}
+                    </p>
+                  </td>
+                  <td
+                    style={{ background: "rgb(192, 100, 40)", color: "white" }}
+                  >
+                    <p>4</p>
+                  </td>
                 </tr>
               </tbody>
             </table>
 
-            <div className="main-color w-full my-3 p-5 border border-black whitespace-nowrap truncate">
+            <div className="bg-white w-full my-3 p-5 whitespace-nowrap truncate rounded-md h-[88px] relative">
+              <p className="absolute top-2/4 left-0 -translate-y-2/4 z-50 text-white p-5 main-color swap_waiting_pharmacy w-[550px]"></p>
               <div className="scrolling">
-                WAITING / รอรับยา {combinePharmacysNumber.join(", ")}
+                <p style={{ color: "rgb(192, 100, 40)" }}>
+                  {combinePharmacysNumber.join(", ")}
+                </p>
               </div>
             </div>
 
-            <div className="main-color w-full my-3 p-5 border border-black whitespace-nowrap truncate">
-              <div className="scrolling text-yellow-300">
-                MISSED CALL / กรุณาติดต่อเภสัชกร{" "}
-                {pharmacysMissedCallNumber.join(", ")}
+            <div className="bg-white w-full my-3 p-5 whitespace-nowrap truncate rounded-md h-[88px] relative">
+              <p className="absolute top-2/4 left-0 -translate-y-2/4 z-50 text-white p-5 main-color swap_misscall_pharmacy w-[550px]"></p>
+              <div className="scrolling ">
+                <p style={{ color: "rgb(192, 100, 40)" }}>
+                  {pharmacysMissedCallNumber.join(", ")}
+                </p>
               </div>
             </div>
           </div>
@@ -745,7 +936,9 @@ const floor = () => {
           <div className="modal-content">
             <div className="space-y-5">
               <div className="flex justify-between">
-                <h2 className="text-xl font-bold leading-7">วิธีการใช้งาน</h2>
+                <h2 className="text-xl font-semibold leading-7">
+                  วิธีการใช้งาน
+                </h2>
 
                 <span className="close" onClick={() => setOpenInfo(!openInfo)}>
                   &times;
