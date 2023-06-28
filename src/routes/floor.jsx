@@ -546,7 +546,7 @@ const floor = () => {
               </tbody>
             </table>
 
-            <div className="bg-white w-full my-3 p-5 whitespace-nowrap truncate rounded-md h-[88px] relative">
+            <div className="bg-white w-full my-3 p-5 whitespace-nowrap truncate h-[88px] relative">
               <p className="absolute top-2/4 left-0 -translate-y-2/4 z-50 text-white p-5 main-color swap_waiting_cashier w-[550px]"></p>
               <div className="scrolling">
                 <p style={{ color: "rgb(192, 100, 40)" }}>
@@ -555,7 +555,7 @@ const floor = () => {
               </div>
             </div>
 
-            <div className="bg-white w-full my-3 p-5 whitespace-nowrap truncate rounded-md h-[88px] relative">
+            <div className="bg-white w-full my-3 p-5 whitespace-nowrap truncate h-[88px] relative">
               <p className="absolute top-2/4 left-0 -translate-y-2/4 z-50 text-white p-5 main-color swap_misscall_cashier w-[550px]"></p>
               <div className="scrolling ">
                 <p style={{ color: "rgb(192, 100, 40)" }}>
@@ -713,7 +713,7 @@ const floor = () => {
               </tbody>
             </table>
 
-            <div className="bg-white w-full my-3 p-5 whitespace-nowrap truncate rounded-md h-[88px] relative">
+            <div className="bg-white w-full my-3 p-5 whitespace-nowrap truncate h-[88px] relative">
               <p className="absolute top-2/4 left-0 -translate-y-2/4 z-50 text-white p-5 main-color swap_waiting_pharmacy w-[550px]"></p>
               <div className="scrolling">
                 <p style={{ color: "rgb(192, 100, 40)" }}>
@@ -722,7 +722,7 @@ const floor = () => {
               </div>
             </div>
 
-            <div className="bg-white w-full my-3 p-5 whitespace-nowrap truncate rounded-md h-[88px] relative">
+            <div className="bg-white w-full my-3 p-5 whitespace-nowrap truncate h-[88px] relative">
               <p className="absolute top-2/4 left-0 -translate-y-2/4 z-50 text-white p-5 main-color swap_misscall_pharmacy w-[550px]"></p>
               <div className="scrolling ">
                 <p style={{ color: "rgb(192, 100, 40)" }}>

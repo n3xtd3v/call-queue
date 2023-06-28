@@ -42,7 +42,7 @@ export default function Root() {
   };
 
   const handleSubmitFloor = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
 
     navigate(`/floor/${floorSelect[0]}-${floorSelect[1]}`);
   };

@@ -62,7 +62,7 @@
 
 .title_cashier:after {
   content: "Cashier";
-  animation: swap_cashier 5s linear infinite;
+  animation: swap_cashier 10s linear infinite;
 }
 
 @keyframes swap_cashier {
@@ -73,7 +73,7 @@
 
 .title_pharmacy:after {
   content: "Pharmacy";
-  animation: swap_pharmacy 5s linear infinite;
+  animation: swap_pharmacy 10s linear infinite;
 }
 
 @keyframes swap_pharmacy {
@@ -123,7 +123,7 @@ tr td:first-child {
 
 .blinking-text {
   color: white;
-  animation: blink 1s infinite;
+  animation: blink 10s infinite;
 }
 
 @keyframes blink {
@@ -138,7 +138,7 @@ tr td:first-child {
 }
 
 .blinking-bg {
-  animation: blink-bg 1s infinite;
+  animation: blink-bg 10s infinite;
 }
 
 @keyframes blink-bg {
@@ -154,7 +154,7 @@ tr td:first-child {
 
 .title_service:after {
   content: "Service Number";
-  animation: swap_service 5s linear infinite;
+  animation: swap_service 10s linear infinite;
 }
 
 @keyframes swap_service {
@@ -165,7 +165,7 @@ tr td:first-child {
 
 .title_counter:after {
   content: "Counter";
-  animation: swap_counter 5s linear infinite;
+  animation: swap_counter 10s linear infinite;
 }
 
 @keyframes swap_counter {
@@ -176,18 +176,18 @@ tr td:first-child {
 
 .swap_waiting_cashier:after {
   content: "Waiting";
-  animation: swap_waiting_cashier 5s linear infinite;
+  animation: swap_waiting_cashier 10s linear infinite;
 }
 
 @keyframes swap_waiting_cashier {
   100% {
-    content: "ชำระเงิน";
+    content: "รอชำระเงิน";
   }
 }
 
 .swap_misscall_cashier:after {
   content: "Miss call";
-  animation: swap_misscall_cashier 5s linear infinite;
+  animation: swap_misscall_cashier 10s linear infinite;
 }
 
 @keyframes swap_misscall_cashier {
@@ -198,7 +198,7 @@ tr td:first-child {
 
 .swap_waiting_pharmacy:after {
   content: "Waiting";
-  animation: swap_waiting_pharmacy 5s linear infinite;
+  animation: swap_waiting_pharmacy 10s linear infinite;
 }
 
 @keyframes swap_waiting_pharmacy {
@@ -209,7 +209,7 @@ tr td:first-child {
 
 .swap_misscall_pharmacy:after {
   content: "Miss call";
-  animation: swap_misscall_pharmacy 5s linear infinite;
+  animation: swap_misscall_pharmacy 10s linear infinite;
 }
 
 @keyframes swap_misscall_pharmacy {
