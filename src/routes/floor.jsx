@@ -397,8 +397,15 @@ const floor = () => {
         </div>
       </div>
 
+      {/* Cashier */}
       <div className="grid grid-cols-2 gap-10 min-h-screen justify-center items-center text-white text-center px-10 text-5xl font-bold">
-        <div className="flex flex-col justify-items-center items-center">
+        <div
+          className={`${
+            floorId ===
+              "FD49F3DB-5213-11EA-9C39-A44CC83E822B-A857FB3C-5797-11EA-9C3B-9061AE5A26DD" &&
+            "order-last"
+          } flex flex-col justify-items-center items-center`}
+        >
           <div className="main-color w-full my-3 p-5 title_cashier rounded-md"></div>
 
           <div className="flex flex-col justify-center items-center main-color w-full p-5 rounded-md">
@@ -566,6 +573,7 @@ const floor = () => {
           </div>
         </div>
 
+        {/* Pharmacy */}
         <div className="flex flex-col justify-items-center items-center">
           <div className="main-color w-full my-3 p-5 title_pharmacy rounded-md"></div>
 
@@ -930,7 +938,6 @@ const floor = () => {
           </div>
         </div>
       )}
-
       {openInfo && (
         <div className="modal">
           <div className="modal-content">
